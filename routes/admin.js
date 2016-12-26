@@ -54,7 +54,30 @@ let admin = {
                 });
             }
         });
+    },
 
+    courses : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let courseColl = db.collection("course");
+                    courseColl.find({}).toArray(function(err, docs){
+                        assert.equal(err, null);
+
+                        console.log(docs);
+                        res.send({
+                            ok : 1,
+                            data : docs
+                        });
+                    });
+                });
+            }
+        });
     }
 }
 

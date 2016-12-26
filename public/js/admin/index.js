@@ -16,5 +16,21 @@ app.controller("appCtrl", function($scope, $http){
             $scope.admin_profile = result.data;
         }
     });
+});
+
+app.controller("courseCtrl", function($scope, $http){
+
+    // get all courses
+    $http({
+        url : "./courses",
+        method : "get"
+    }).then(function(data, status){
+        console.log(data);
+
+        let result = data.data;
+        if(result.ok == 1){
+            $scope.courses = result.data;
+        }
+    });
 
 });
