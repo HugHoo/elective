@@ -1,0 +1,26 @@
+* {
+    font-family: "微软雅黑"
+}
+
+.debug {
+    border: 1px dotted red;
+}
+
+.cus-f-lightgrey { color: #757575; }
+
+.cus-f-w100 { font-weight: 100; }
+.cus-f-w200 { font-weight: 200; }
+.cus-f-w300 { font-weight: 300; }
+.cus-f-w400 { font-weight: 400; }
+
+.cus-p-l20 { padding-left: 20px; }
+
+.cus-p-t20 { padding-top: 20px; }
+
+.cus-m-t10 { margin-top: 10px; }
+.cus-m-t20 { margin-top: 20px; }
+
+.cus-m-r10 { margin-right: 10px; }
+
+.cus-m-b10 { margin-bottom: 10px; }
+.cus-m-b20 { margin-bottom: 20px; }

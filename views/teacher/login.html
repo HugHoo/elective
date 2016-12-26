@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="main-container row" style="margin-top: 100px;">
+        <div class="col l4 offset-l4 m6 offset-m3 s10 offset-s1">
+            <div class="z-depth-3">
+                <nav class="blue nav-extended cus-m-b20">
+                    <div class="nav-wrapper">
+                        <a href="" class="brand-logo">
+                            <span class="cus-p-l20 cus-f-w300">Teacher</span>
+                        </a>
+                        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                        <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li><a href="#" class="cus-f-w300"><i class="material-icons">format_list_bulleted</i></a></li>
+                        </ul>
+                        <ul class="side-nav" id="mobile-demo">
+                            <li><a href="#" class="cus-f-w300"><i class="material-icons">format_list_bulleted</i></a></li>
+                        </ul>
+
+                        <ul class="tabs tabs-transparent">
+                            <li class="tab">
+                                <a href="#login" class="active">Login</a>
+                            </li>
+                            <li class="tab">
+                                <a href="#signup">Sign up</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <div id="login">
+                    <div class="row">
+                        <form class="col s12" ng-controller="loginFormCtrl">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">face</i>
+                                    <input name="stu_id" id="stu_id" type="text" class="validate" autofocus="on" ng-model="user.stu_id">
+                                    <label for="stu_id">Teacher ID</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">fingerprint</i>
+                                    <input name="password" id="password" type="password" class="validate" ng-model="user.password">
+                                    <label for="password">Password</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12" style="padding-left: 20px;">
+                                    <input name="is_cookie" type="checkbox" id="iscookie" ng-model="user.is_cookie">
+                                    <label for="iscookie">Remember me</label>
+                                </div>
+                            </div>
+                            <!--<div class="row">
+                                <div ng-class="notify.color" class="col s12 center" ng-hide="notify == ''">
+                                    {{ notify.message }}
+                                </div>
+                            </div>-->
+                            <div class="row">
+                                <div class="col s12">
+                                    <button class="btn blue waves-effect waves-light right" ng-click="loginFormSubmit()">
+                                        Login
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div id="signup">
+                    <div class="row">
+                        <form class="col s12" ng-controller="signupFormCtrl">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">face</i>
+                                    <input name="email" id="email" type="email" class="validate" ng-model="user.email">
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">mood</i>
+                                    <input name="username" id="username" type="text" class="validate" ng-model="user.username">
+                                    <label for="username">Username</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">fingerprint</i>
+                                    <input name="password" id="password" type="password" class="validate" ng-model="user.password">
+                                    <label for="password">Password</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 input-field">
+                                    <i class="material-icons prefix">fingerprint</i>
+                                    <input name="re_password" type="password" id="repassword" class="validate" ng-model="user.re_password">
+                                    <label for="password">Re-Password</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <button class="btn blue waves-effect waves-light right" ng-click="signupFormCtrl()">
+                                        Signup
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+</body>
+</html>
