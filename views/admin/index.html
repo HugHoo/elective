@@ -285,8 +285,46 @@
                     </div>
 
                     <div class="col s12 l8 m12 cus-m-b20">
-                        <h5 class="cus-f-lightgrey cus-f-w300 cus-m-b20">Today</h5>
-                        <div class="card-panel grey lighten-5 z-depth-1 hoverable">
+                        <h5 class="cus-f-lightgrey cus-f-w300 cus-m-b20">All Courses</h5>
+                        <ul class="collapsible popout" data-collapsible="accordion">
+                            <li>
+                                <div class="collapsible-header">
+                                    <input id="checkbox01" type="checkbox">
+                                    <label for="checkbox01" class="black-text">First course</label>
+                                    <span class="new badge" data-badge-caption="">详细信息</span>
+                                    <!--<span class="right">details</span>-->
+                                </div>
+                                <div class="collapsible-body">
+                                    <p>
+                                        <span style="font-size: 150%;">课程名称</span> <br/> <br/>
+                                        教师：教师姓名 <br/>
+                                        教室：北1-101 <br/>
+                                        时间：第三周 - 第十六周 <br/> <br/>
+                                        简介：这是一段课程简介。这是一段课程简介。这是一段课程简介。这是一段课程简介。这是一段课程简介。这是一段课程简介。
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header">
+                                    <input id="checkbox02" type="checkbox">
+                                    <label for="checkbox02" class="black-text">Second course</label>
+                                    <span class="new badge" data-badge-caption="">详细信息</span>
+                                    <!--<span class="right">details</span>-->
+                                </div>
+                                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header">
+                                    <input id="checkbox03" type="checkbox">
+                                    <label for="checkbox03" class="black-text">Third course</label>
+                                    <span class="new badge" data-badge-caption="">详细信息</span>
+                                    <!--<span class="right">details</span>-->
+                                </div>
+                                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                            </li>
+                        </ul>
+
+                        <!--<div class="card-panel grey lighten-5 z-depth-1 hoverable">
                             <span>
                                 <input type="checkbox" id="{{ item._id }}" />
                                 <label for="{{ item._id }}" style="color: #424242;">
@@ -323,6 +361,12 @@
                                 <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-3 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
                                 <i class="material-icons red-text text-lighten-3 circle grey lighten-3 waves-effect" style="padding: 3px;">delete</i>
                             </span>
+                        </div>-->
+
+                        <div class="row">
+                            <div class="col s12 center" style="padding-top: 20px;">
+                                <button class="btn waves-effect waves-light blue">Agree</button>
+                            </div>
                         </div>
                     </div>
                 </div>

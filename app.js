@@ -43,14 +43,14 @@ app.set("public", __dirname + "/public");
 // }
 
 app.get("/", (req, res) => {
-    let p1 = passwordHash.generate("admin");
-    let p2 = passwordHash.generate("admin");
-    console.log(p1);
-    console.log(p2);
-    console.log(passwordHash.verify("admin", p1));
-    console.log(passwordHash.verify("admin", p2));
+    // let p1 = passwordHash.generate("admin");
+    // let p2 = passwordHash.generate("admin");
+    // console.log(p1);
+    // console.log(p2);
+    // console.log(passwordHash.verify("admin", p1));
+    // console.log(passwordHash.verify("admin", p2));
     // res.send("elective admin page.");
-    res.sendFile(app.get("views") + "/admin/index.html");
+    res.sendFile(app.get("views") + "/student/index.html");
 });
 
 app.get("/admin/index", (req, res) => { admin.index(app, req, res); });
