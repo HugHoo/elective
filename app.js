@@ -58,5 +58,8 @@ app.get("/admin/login", (req, res) => { admin.login(app, req, res); });
 app.post("/admin/login", (req, res) => { admin.login_do(app, req, res); });
 app.get("/admin/admin_profile", admin.admin_profile);
 app.get("/admin/courses", admin.courses);
+app.post("/admin/add_course", admin.add_course);
+app.post("/admin/update_course", admin.update_course);
+app.post("/admin/delete_course", admin.delete_course);
 
 app.listen(3000, () => { console.log("Listening on http://localhost:3000")});

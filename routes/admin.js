@@ -1,6 +1,7 @@
 let assert = require("assert");
 let passwordHash = require("password-hash");
 let mongoClient = require("mongodb").MongoClient;
+let ObjectID = require("mongodb").ObjectID;
 let url = "mongodb://localhost:2333/elective";
 
 let admin = {
@@ -69,10 +70,97 @@ let admin = {
                     courseColl.find({}).toArray(function(err, docs){
                         assert.equal(err, null);
 
-                        console.log(docs);
+                        console.log("获取所有课程");
                         res.send({
                             ok : 1,
                             data : docs
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    add_course : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let courseColl = db.collection("course");
+                    courseColl.insertOne(req.body, function(err, r){
+                        assert.equal(err, null);
+                        assert.equal(r.insertedCount, 1);
+
+                        // console.log(r.ops);
+                        console.log("添加成功");
+                        res.send({
+                            ok : 1,
+                            data : r.ops
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    update_course : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let courseColl = db.collection("course");
+                    courseColl.updateOne({ _id : ObjectID(req.body._id) },
+                    {
+                        title : req.body.title,
+                        time : req.body.time,
+                        point : req.body.point,
+                        room : req.body.room,
+                        intro : req.body.intro,
+                    }, function(err, result){
+                        assert.equal(null, err);
+                        assert.equal(1, result.result.n);
+
+                        console.log("更新成功");
+                        res.send({
+                            ok : 1
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    delete_course : function(req, res){
+        //check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let courseColl = db.collection("course");
+                    courseColl.deleteOne({ _id : ObjectID(req.body._id) }, function(err, result){
+                        assert.equal(err, null);
+                        assert.equal(result.result.n, 1);
+
+                        console.log("删除课程 [ %s ] 成功", req.body._id);
+                        res.send({
+                            ok : 1,
                         });
                     });
                 });

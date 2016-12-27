@@ -39,10 +39,10 @@
 
                     <ul class="tabs tabs-transparent">
                         <li class="tab">
-                            <a href="#user_manage" class="active">Users</a>
+                            <a href="#user_manage">Users</a>
                         </li>
                         <li class="tab">
-                            <a href="#course_manage">Courses</a>
+                            <a href="#course_manage" class="active">Courses</a>
                         </li>
                         <li class="tab">
                             <a href="#elective_info_manage">Elective</a>
@@ -275,22 +275,14 @@
 
             <div id="course_manage" ng-controller="courseCtrl">
                 <div class="row">
-                    <div class="col l2 m12 s12">
-                        <div class="collection z-depth-1">
-                            <a href="#!" class="collection-item">Alvin</a>
-                            <a href="#!" class="collection-item active">Alvin</a>
-                            <a href="#!" class="collection-item">Alvin</a>
-                            <a href="#!" class="collection-item">Alvin</a>
-                        </div>
-                    </div>
-
-                    <div class="col s12 l8 m12 cus-m-b20">
+                    <div class="col s12 l8 offset-l2 m12 cus-m-b20">
                         <h5 class="cus-f-lightgrey cus-f-w300 cus-m-b20">All Courses</h5>
                         <ul class="collapsible popout" data-collapsible="accordion">
                             <li ng-repeat="(key, item) in courses">
                                 <div class="collapsible-header">
-                                    <input id="checkbox01" type="checkbox">
-                                    <label for="checkbox01" class="black-text">First course</label>
+                                    {{ item.title }}
+                                    <!--<input id="checkbox01" type="checkbox">-->
+                                    <!--<label for="checkbox01" class="black-text">{{ item.title }}</label>-->
                                     <span class="new badge" data-badge-caption="">详细信息</span>
                                     <!--<span class="right">details</span>-->
                                 </div>
@@ -298,9 +290,12 @@
                                     <p>
                                         <span style="font-size: 150%;">{{ item.title }}</span> <br/> <br/>
                                         教师：教师姓名 <br/>
-                                        教室：{{ item.room }} <br/>
-                                        时间：{{ item.time }} <br/> <br/>
-                                        简介：{{ item.intro }}
+                                        学分：{{ item.point }} <br/>
+                                        时间：{{ item.time }} <br/>
+                                        教室：{{ item.room }} <br/> <br/>
+                                        简介：{{ item.intro }} <br/> <br/>
+                                        <button class="btn waves-effect waves-light blue lighten-1" ng-click="editCourseModal(key)">编辑</button>
+                                        <button class="btn waves-effect waves-light red lighten-1" ng-click="deleteCourseModal(key)">删除</button>
                                     </p>
                                 </div>
                             </li>
@@ -469,21 +464,99 @@
     </div>
 
     <!-- modal space -->
-    <div id="addCourseModal" class="modal modal-fixed-footer">
+
+    <div id="addCourseModal" class="modal" ng-controller="addCourseModalCtrl">
         <div class="modal-content">
-            <h4>Add New Course</h4>
-            <hr/>
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <input id="course_title" type="text" class="col s12">
-                        <label for="course_title">Title</label>
+            <h5>添加新的课程</h5>
+            <form style="margin-top: 20px;">
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <input id="course_title" type="text" class="validate" length="20" ng-model="newCourse.title">
+                        <label for="course_title">课程名称</label>
                     </div>
-                </form>
-            </div>
+                    <div class="input-field col l6 s12">
+                        <input id="course_room" type="text" class="validate" length="20" ng-model="newCourse.room">
+                        <label for="course_room">教室</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <input id="course_time" type="text" class="validate" length="30" ng-model="newCourse.time">
+                        <label for="course_time">时间</label>
+                    </div>
+                    <div class="input-field col l6 s12">
+                        <select ng-model="newCourse.point">
+                            <option value="" disabled selected>选择学分</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                        <label>学分</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <textarea id="course_intro" class="materialize-textarea" length="120" ng-model="newCourse.intro"></textarea>
+                        <label for="course_intro">简介</label>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="addCourseSubmit()">添加</a>
+        </div>
+    </div>
+
+    <div id="editCourseModal" class="modal" ng-controller="editCourseModalCtrl">
+        <div class="modal-content">
+            <h5>编辑课程：{{ editCourse.title }}</h5>
+            <form style="margin-top: 20px;">
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <input id="course_title" type="text" class="validate" length="20" ng-model="editCourse.title" placeholder=" ">
+                        <label for="course_title">课程名称</label>
+                    </div>
+                    <div class="input-field col l6 s12">
+                        <input id="course_room" type="text" class="validate" length="20" ng-model="editCourse.room" placeholder=" ">
+                        <label for="course_room">教室</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <input id="course_time" type="text" class="validate" length="30" ng-model="editCourse.time" placeholder=" ">
+                        <label for="course_time">时间</label>
+                    </div>
+                    <div class="input-field col l6 s12">
+                        <select id="editCoursePointSelect" ng-model="editCourse.point">
+                            <option value="" disabled>选择学分</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                        <label>学分 {{ editCourse.point }}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <textarea id="course_intro" class="materialize-textarea" length="120" ng-model="editCourse.intro" placeholder=" "></textarea>
+                        <label for="course_intro">简介</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="editCourseSubmit()">提交</a>
+        </div>
+    </div>
+
+    <div id="deleteCourseModal" class="modal" ng-controller="deleteCourseModalCtrl">
+        <div class="modal-content">
+            <h5>删除课程</h5>
+            <p>确定删除课程 <span class="red-text">{{ deleteCourse.title }}</span> ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="deleteCourseSubmit()">确定</a>
         </div>
     </div>
 
