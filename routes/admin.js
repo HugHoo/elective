@@ -235,6 +235,7 @@ let admin = {
                     let teacherColl = db.collection("teacher");
                     teacherColl.updateOne({ _id : ObjectID(req.body._id) },
                     {
+                        teacher_id : req.body.teacher_id,
                         sid : req.body.sid,
                         username : req.body.username,
                         sex : req.body.sex,

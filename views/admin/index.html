@@ -297,8 +297,8 @@
                                                 性别：<span ng-if="item.sex == 0">男</span> <span ng-if="item.sex == 1">女</span> <br/>
                                                 工号：{{ item.teacher_id }} <br/>
                                                 学院：{{ schools[item.sid].school_name }} <br/> <br/>
-                                                <button class="btn waves-effect waves-light blue lighten-1" ng-click="editCourseModal(key)">编辑</button>
-                                                <button class="btn waves-effect waves-light red lighten-1" ng-click="deleteCourseModal(key)">删除</button>
+                                                <button class="btn waves-effect waves-light blue lighten-1" ng-click="editTeacherModal(key)">编辑</button>
+                                                <button class="btn waves-effect waves-light red lighten-1" ng-click="deleteTeacherModal(key)">删除</button>
                                             </p>
                                         </div>
                                     </div>
@@ -509,6 +509,7 @@
     </div>
 
     <!-- modal space -->
+
     <div id="addTeacherModal" class="modal" ng-controller="addTeacherModalCtrl">
         <div class="modal-content">
             <h5>添加教师</h5>
@@ -548,7 +549,7 @@
                             <input type="file">
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
+                            <input class="file-path validate" type="text" ng-model="file">
                         </div>
                     </div>
                 </div>
@@ -559,7 +560,68 @@
             <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="addTeacherSubmit()">添加</a>
         </div>
     </div>
+
+    <div id="editTeacherModal" class="modal" ng-controller="editTeacherModalCtrl">
+        <div class="modal-content">
+            <h5>编辑教师</h5>
+            <form style="margin-top: 20px;">
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <input id="teacher_id" type="text" class="validate" length="20" disabled placeholder=" " ng-model="editTeacher.teacher_id">
+                        <label for="teacher_id">教师工号</label>
+                    </div>
+                    <div class="input-field col l6 s12">
+                        <input id="teacher_username" type="text" class="validate" length="20" placeholder=" " ng-model="editTeacher.username">
+                        <label for="teacher_username">教师名称</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col l6 s12">
+                        <select ng-model="editTeacher.sex" placeholder=" ">
+                            <option value="" disabled selected>选择性别</option>
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                        <label>性别</label>
+                    </div>
+                    <div class="col l6 s12">
+                        <select class="browser-default" ng-model="editTeacher.sid" ng-options="item.school_id as item.school_name for item in schools" ng-if="schools">
+                            <option value="" disabled selected>选择学院</option>
+                            <!--<option ng-repeat="(key, item) in schools" value="{{ item.school_id }}">{{ item.school_name }}</option>-->
+                            <!--<option value="0">信息工程学院</option>
+                            <option value="1">不知道是什么学院</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="file-field input-field col l6 s12">
+                        <div class="btn blue lighten-1">
+                            <span>头像</span>
+                            <input type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" ng-model="file">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="editTeacherSubmit()">提交</a>
+        </div>
+    </div>
     
+    <div id="deleteTeacherModal" class="modal" ng-controller="deleteTeacherModalCtrl">
+        <div class="modal-content">
+            <h5>删除教师</h5>
+            <p>确定删除教师 <span class="red-text">{{ deleteTeacher.username }}</span> ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="deleteTeacherSubmit()">确定</a>
+        </div>
+    </div>
 
     <div id="addCourseModal" class="modal" ng-controller="addCourseModalCtrl">
         <div class="modal-content">

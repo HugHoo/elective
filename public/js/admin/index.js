@@ -52,57 +52,40 @@ app.controller("teacherCtrl", function($scope, $rootScope, $http){
         }
     });
 
+    $scope.editTeacherModal = function(key){
+        console.log("eidt key : ", key);
+
+        $rootScope.$emit("showEditTeacherModal", { key : key, data : angular.copy($scope.teachers[key]) });
+    }
+
+    $scope.deleteTeacherModal = function(key){
+        $rootScope.$emit("showDeleteTeacherModal", { key : key, data : angular.copy($scope.teachers[key]) });
+    }
+
+    $rootScope.$on("addTeacherSuccess", function(event, newTeacher){
+        console.log("teacherCtrl : ", newTeacher);
+        Materialize.toast('添加教师成功!', 4000); 
+
+        $scope.teachers[$scope.teachers.length] = newTeacher;
+    });
+
+    $rootScope.$on("editTeacherSuccess", function(event, data){
+        console.log("Teacher edited : ", data);
+        Materialize.toast('修改教师成功!', 4000); 
+
+        $scope.teachers[data.key] = data.data;        
+    });
+
+    $rootScope.$on("deleteTeacherSuccess", function(event, data){
+        console.log("Teacher delete : " + data.key);
+        Materialize.toast("删除教师成功", 4000);
+
+        console.log($scope.teachers.length);
+        $scope.teachers.splice(data.key);
+        console.log($scope.teachers.length);
+    })
+
 });
-
-// app.controller("teacherCtrl", function($scope, $rootScope, $http){
-
-//     // get all teachers
-//     $http({
-//         url : "./teachers",
-//         method : "get"
-//     }).then(function(data, status){
-//         console.log(data);
-
-//         let result = data.data;
-//         if(result.ok == 1){
-//             $scope.teachers = result.data;
-//         }
-//     });
-
-//     $scope.editTeacherModal = function(key){
-//         console.log("eidt key : ", key);
-
-//         $rootScope.$emit("showEditTeacherModal", { key : key, data : angular.copy($scope.teachers[key]) });
-//     }
-
-//     $scope.deleteTeacherModal = function(key){
-//         $rootScope.$emit("showDeleteTeacherModal", { key : key, data : angular.copy($scope.teachers[key]) });
-//     }
-
-//     $rootScope.$on("addTeacherSuccess", function(event, newTeacher){
-//         console.log("teacherCtrl : ", newTeacher);
-//         Materialize.toast('添加教师成功!', 4000); 
-
-//         $scope.teachers[$scope.teachers.length] = newTeacher;
-//     });
-
-//     $rootScope.$on("editTeacherSuccess", function(event, data){
-//         console.log("Teacher edited : ", data);
-//         Materialize.toast('修改教师成功!', 4000); 
-
-//         $scope.teachers[data.key] = data.data;        
-//     });
-
-//     $rootScope.$on("deleteTeacherSuccess", function(event, data){
-//         console.log("Teacher delete : " + data.key);
-//         Materialize.toast("删除教师成功", 4000);
-
-//         console.log($scope.teachers.length);
-//         $scope.teachers.splice(data.key);
-//         console.log($scope.teachers.length);
-//     })
-
-// });
 
 app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
 
@@ -115,6 +98,7 @@ app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
 
     $scope.addTeacherSubmit = function(){
         console.log($scope.newTeacher);
+        console.log("file : ", $scope.file);
 
         $http({
             url : "./add_teacher",
@@ -132,6 +116,68 @@ app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
             }
         });
     }
+});
+
+app.controller("editTeacherModalCtrl", function($scope, $rootScope, $http){
+    let key = -1;
+
+    $rootScope.$on("showEditTeacherModal", function(event, data){
+        key = data.key;
+        let editTeacher = data.data;
+
+        console.log("Edit Teacher : ", editTeacher);
+
+        $scope.editTeacher = editTeacher;
+        $('#editTeacherModal').modal('open');
+    });
+
+    $scope.editTeacherSubmit = function(){
+        console.log("Edited : ", $scope.editTeacher);
+
+        $http({
+            url : "./update_teacher",
+            method : "post",
+            data : $scope.editTeacher
+        }).then(function(result, status){
+            console.log(result);
+
+            if(result.data.ok == 1){
+                $rootScope.$emit("editTeacherSuccess", { key : key, data : angular.copy($scope.editTeacher)});
+            }
+        });
+    }
+
+});
+
+app.controller("deleteTeacherModalCtrl", function($scope, $rootScope, $http){
+    let key = -1;
+
+    $rootScope.$on("showDeleteTeacherModal", function(event, data){
+        key = data.key;
+        $scope.deleteTeacher = data.data;
+
+        console.log("delete " + data.key);
+        $("#deleteTeacherModal").modal("open");
+    });
+
+    $scope.deleteTeacherSubmit = function(){
+        console.log("delete comfirm : " + key);
+
+        $http({
+            url : "./delete_teacher",
+            method : "post",
+            data : {
+                _id : $scope.deleteTeacher._id
+            }
+        }).then(function(result, status){
+            console.log(result);
+
+            if(result.data.ok == 1){
+                $rootScope.$emit("deleteTeacherSuccess", { key : key });
+            }
+        });
+    }
+
 });
 
 app.controller("courseCtrl", function($scope, $rootScope, $http){
