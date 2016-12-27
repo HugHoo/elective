@@ -2,7 +2,7 @@
 
 let app = angular.module("app", []);
 
-app.controller("appCtrl", function($scope, $http){
+app.controller("appCtrl", function($scope, $rootScope, $http){
 
     // get current admin profile
     $http({
@@ -16,6 +16,122 @@ app.controller("appCtrl", function($scope, $http){
             $scope.admin_profile = result.data;
         }
     });
+
+    // get school info
+    $http({
+        url : "./schools",
+        method : "get",
+    }).then(function(result, status){
+        let old_schools = result.data.data;
+
+        $scope.schools = new Array();
+        if(result.data.ok == 1){
+            for(let i = 0; i < old_schools.length; i++){
+                $scope.schools[old_schools[i].school_id] = old_schools[i];
+            }
+        }
+
+        console.log("schools : ", $scope.schools);        
+        $("select").material_select();
+    });
+
+});
+
+app.controller("teacherCtrl", function($scope, $rootScope, $http){
+
+    // get all teachers
+    $http({
+        url : "./teachers",
+        method : "get"
+    }).then(function(data, status){
+        console.log("teachers : ", data);
+
+        let result = data.data;
+        if(result.ok == 1){
+            $scope.teachers = result.data;
+        }
+    });
+
+});
+
+// app.controller("teacherCtrl", function($scope, $rootScope, $http){
+
+//     // get all teachers
+//     $http({
+//         url : "./teachers",
+//         method : "get"
+//     }).then(function(data, status){
+//         console.log(data);
+
+//         let result = data.data;
+//         if(result.ok == 1){
+//             $scope.teachers = result.data;
+//         }
+//     });
+
+//     $scope.editTeacherModal = function(key){
+//         console.log("eidt key : ", key);
+
+//         $rootScope.$emit("showEditTeacherModal", { key : key, data : angular.copy($scope.teachers[key]) });
+//     }
+
+//     $scope.deleteTeacherModal = function(key){
+//         $rootScope.$emit("showDeleteTeacherModal", { key : key, data : angular.copy($scope.teachers[key]) });
+//     }
+
+//     $rootScope.$on("addTeacherSuccess", function(event, newTeacher){
+//         console.log("teacherCtrl : ", newTeacher);
+//         Materialize.toast('添加教师成功!', 4000); 
+
+//         $scope.teachers[$scope.teachers.length] = newTeacher;
+//     });
+
+//     $rootScope.$on("editTeacherSuccess", function(event, data){
+//         console.log("Teacher edited : ", data);
+//         Materialize.toast('修改教师成功!', 4000); 
+
+//         $scope.teachers[data.key] = data.data;        
+//     });
+
+//     $rootScope.$on("deleteTeacherSuccess", function(event, data){
+//         console.log("Teacher delete : " + data.key);
+//         Materialize.toast("删除教师成功", 4000);
+
+//         console.log($scope.teachers.length);
+//         $scope.teachers.splice(data.key);
+//         console.log($scope.teachers.length);
+//     })
+
+// });
+
+app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
+
+    $scope.newTeacherInit = $scope.newTeacher = {
+        // sid : 0,
+        teacher_id : "20160x",
+        username : "教师0x"
+        // sex : 0
+    }
+
+    $scope.addTeacherSubmit = function(){
+        console.log($scope.newTeacher);
+
+        $http({
+            url : "./add_teacher",
+            method : "post",
+            data : $scope.newTeacher
+        }).then(function(r, status){
+            let result = r.data;
+            // console.log(r);
+
+            if(result.ok == 1){
+                $scope.newTeacher = angular.copy($scope.newTeacherInit);
+
+                // console.log(result.data[0]);
+                $rootScope.$emit("addTeacherSuccess", result.data[0]);
+            }
+        });
+    }
 });
 
 app.controller("courseCtrl", function($scope, $rootScope, $http){

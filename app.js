@@ -61,5 +61,10 @@ app.get("/admin/courses", admin.courses);
 app.post("/admin/add_course", admin.add_course);
 app.post("/admin/update_course", admin.update_course);
 app.post("/admin/delete_course", admin.delete_course);
+app.get("/admin/teachers", admin.teachers);
+app.post("/admin/add_teacher", admin.add_teacher);
+app.post("/admin/update_teacher", admin.update_teacher);
+app.post("/admin/delete_teacher", admin.delete_teacher);
+app.get("/admin/schools", admin.schools);
 
 app.listen(3000, () => { console.log("Listening on http://localhost:3000")});

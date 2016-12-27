@@ -166,6 +166,141 @@ let admin = {
                 });
             }
         });
+    },
+
+    teachers : function(req, res){
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let teacherColl = db.collection("teacher");
+                    teacherColl.find({}).toArray(function(err, docs){
+                        assert.equal(err, null);
+
+                        console.log("获取所有教师");
+                        res.send({
+                            ok : 1,
+                            data : docs
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    add_teacher : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                req.body.password = passwordHash.generate(req.body.teacher_id);
+
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let teacherColl = db.collection("teacher");
+                    teacherColl.insertOne(req.body, function(err, r){
+                        assert.equal(err, null);
+                        assert.equal(r.insertedCount, 1);
+
+                        // console.log(r.ops);
+                        console.log("添加教师成功");
+                        res.send({
+                            ok : 1,
+                            data : r.ops
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    update_teacher : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let teacherColl = db.collection("teacher");
+                    teacherColl.updateOne({ _id : ObjectID(req.body._id) },
+                    {
+                        sid : req.body.sid,
+                        username : req.body.username,
+                        sex : req.body.sex,
+                    }, function(err, result){
+                        assert.equal(null, err);
+                        assert.equal(1, result.result.n);
+
+                        console.log("更新教师成功");
+                        res.send({
+                            ok : 1
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    delete_teacher : function(req, res){
+        //check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let teacherColl = db.collection("teacher");
+                    teacherColl.deleteOne({ _id : ObjectID(req.body._id) }, function(err, result){
+                        assert.equal(err, null);
+                        assert.equal(result.result.n, 1);
+
+                        console.log("删除课程 [ %s ] 成功", req.body._id);
+                        res.send({
+                            ok : 1,
+                        });
+                    });
+                });
+            }
+        });
+    },
+
+    schools : function(req, res){
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("school");
+                    collection.find({}).toArray(function(err, docs){
+                        assert.equal(err, null);
+
+                        console.log("获取所有学院");
+                        res.send({
+                            ok : 1,
+                            data : docs
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
     }
 }
 

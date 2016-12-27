@@ -39,13 +39,16 @@
 
                     <ul class="tabs tabs-transparent">
                         <li class="tab">
-                            <a href="#user_manage">Users</a>
+                            <a href="#student_manage">学生</a>
                         </li>
                         <li class="tab">
-                            <a href="#course_manage" class="active">Courses</a>
+                            <a href="#teacher_manage" class="active">教师</a>
                         </li>
                         <li class="tab">
-                            <a href="#elective_info_manage">Elective</a>
+                            <a href="#course_manage">课程</a>
+                        </li>
+                        <li class="tab">
+                            <a href="#elective_info_manage">选修信息</a>
                         </li>
                     </ul>
                 </div>
@@ -53,7 +56,7 @@
         </div>
 
         <div class="container" style="margin-top: 70px;">
-            <div id="user_manage">
+            <div id="student_manage">
                 <div class="row">
                     <div class="col l2 m12 s12">
                         <div class="collection z-depth-1">
@@ -273,10 +276,52 @@
                 </div>
             </div>
 
+            <div id="teacher_manage" ng-controller="teacherCtrl">
+                <div class="row">
+                    <div class="col s12 l8 offset-l2 m12 cus-m-b20">
+                        <h5 class="cus-f-lightgrey cus-f-w300 cus-m-b20">所有教师</h5>
+                        <ul class="collapsible popout" data-collapsible="accordion">
+                            <li ng-repeat="(key, item) in teachers">
+                                <div class="collapsible-header">
+                                    {{ item.username }}
+                                    <span class="new badge" data-badge-caption="">详细信息</span>
+                                </div>
+                                <div class="collapsible-body">
+                                    <div class="row valign-wrapper" style="padding: 0px 40px;">
+                                        <div class="col l2 m8 s6">
+                                            <img src="http://materializecss.com/images/yuna.jpg" alt="" class="circle responsive-img">
+                                        </div>
+                                        <div class="col l10 m8 s6">
+                                            <p class="black-text">
+                                                姓名：{{ item.username }} <br/>
+                                                性别：<span ng-if="item.sex == 0">男</span> <span ng-if="item.sex == 1">女</span> <br/>
+                                                工号：{{ item.teacher_id }} <br/>
+                                                学院：{{ schools[item.sid].school_name }} <br/> <br/>
+                                                <button class="btn waves-effect waves-light blue lighten-1" ng-click="editCourseModal(key)">编辑</button>
+                                                <button class="btn waves-effect waves-light red lighten-1" ng-click="deleteCourseModal(key)">删除</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="row">
+                            <div class="col s12 center" style="padding-top: 20px;">
+                                <button class="btn waves-effect waves-light blue modal-trigger" data-target="addTeacherModal">
+                                    <i class="material-icons right">add</i>
+                                    添加教师
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="course_manage" ng-controller="courseCtrl">
                 <div class="row">
                     <div class="col s12 l8 offset-l2 m12 cus-m-b20">
-                        <h5 class="cus-f-lightgrey cus-f-w300 cus-m-b20">All Courses</h5>
+                        <h5 class="cus-f-lightgrey cus-f-w300 cus-m-b20">所有课程</h5>
                         <ul class="collapsible popout" data-collapsible="accordion">
                             <li ng-repeat="(key, item) in courses">
                                 <div class="collapsible-header">
@@ -305,7 +350,7 @@
                             <div class="col s12 center" style="padding-top: 20px;">
                                 <button class="btn waves-effect waves-light blue modal-trigger" data-target="addCourseModal">
                                     <i class="material-icons right">add</i>
-                                    Add
+                                    添加
                                 </button>
                             </div>
                         </div>
@@ -464,6 +509,57 @@
     </div>
 
     <!-- modal space -->
+    <div id="addTeacherModal" class="modal" ng-controller="addTeacherModalCtrl">
+        <div class="modal-content">
+            <h5>添加教师</h5>
+            <form style="margin-top: 20px;">
+                <div class="row">
+                    <div class="input-field col l6 s12">
+                        <input id="teacher_id" type="text" class="validate" length="20" ng-model="newTeacher.teacher_id">
+                        <label for="teacher_id">教师工号</label>
+                    </div>
+                    <div class="input-field col l6 s12">
+                        <input id="teacher_username" type="text" class="validate" length="20" ng-model="newTeacher.username">
+                        <label for="teacher_username">教师名称</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col l6 s12">
+                        <select ng-model="newTeacher.sex">
+                            <option value="" disabled selected>选择性别</option>
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                        <label>性别</label>
+                    </div>
+                    <div class="col l6 s12">
+                        <select class="browser-default" ng-model="newTeacher.sid" ng-options="item.school_id as item.school_name for item in schools" ng-if="schools">
+                            <option value="" disabled selected>选择学院</option>
+                            <!--<option ng-repeat="(key, item) in schools" value="{{ item.school_id }}">{{ item.school_name }}</option>-->
+                            <!--<option value="0">信息工程学院</option>
+                            <option value="1">不知道是什么学院</option>-->
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="file-field input-field col l6 s12">
+                        <div class="btn blue lighten-1">
+                            <span>头像</span>
+                            <input type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="addTeacherSubmit()">添加</a>
+        </div>
+    </div>
+    
 
     <div id="addCourseModal" class="modal" ng-controller="addCourseModalCtrl">
         <div class="modal-content">
