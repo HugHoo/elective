@@ -34,13 +34,14 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
             method : "get",
         }).then(function(result, status){
             console.log("elective info : ", result.data);
-            let electiveInfo = result.data.data;
+            let electiveInfo = result.data.data; 
 
-            updateElectiveInfo(electiveInfo);
+            updateElectiveSelect(angular.copy(electiveInfo));
+            updateElectiveCourse(angular.copy(electiveInfo));
         });
     });
 
-    function updateElectiveInfo(electiveInfo){
+    function updateElectiveSelect(electiveInfo){
         $scope.courseSelect = new Array();        
 
         for(let i = 0; i < $scope.courses.length; i++){
@@ -50,6 +51,23 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
                 }
             }
         }
+
+        console.log("updateElectiveSelect : ", $scope.courseSelect);
+    }
+
+    function updateElectiveCourse(electiveInfo){
+        let num = 0;
+        $scope.electiveCourses = new Array();
+        for(let i = 0; i < $scope.courses.length; i++){
+            for(let j = 0; j < electiveInfo.length; j++){
+                if($scope.courses[i]._id == electiveInfo[j].course_id){
+                    $scope.electiveCourses[num++] = Object.assign($scope.courses[i], electiveInfo[j]);
+                }
+            }
+        }
+
+        console.log("updateElectiveCourse : ", $scope.courseSelect);
+        console.log("electiveCourses : ", $scope.electiveCourses);
     }
 
     // get all teachers
@@ -97,7 +115,7 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
             console.log(result.data);
 
             Materialize.toast('选修课程成功！', 4000)
-            // updateElectiveInfo(result.data.data);
+            // updateElectiveSelect(result.data.data);
         });
     }
 

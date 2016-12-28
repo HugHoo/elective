@@ -61,7 +61,7 @@
                                 <div class="collapsible-header">
                                     <input id="{{ item._id }}" type="checkbox" ng-model="courseSelect[key]">
                                     <label for="{{ item._id }}" class="black-text">{{ item.title }}</label>
-                                    <span class="new badge" data-badge-caption="">详细信息</span>
+                                    <span class="new badge" data-badge-caption="">{{ item.point }} 学分</span>
                                 </div>
                                 <div class="collapsible-body">
                                     <div class="row valign-wrapper" style="padding: 0px 40px;">
@@ -102,41 +102,43 @@
                 <div class="row">
                     <div class="col s12 l8 offset-l2 m12 cus-m-b20">
                         <h5 class="cus-f-lightgrey cus-f-w300 cus-m-b20">My Courses</h5>
-                        <ul class="collapsible popout" data-collapsible="accordion">
-                            <li>
+                        
+                        <ul class="collapsible" data-collapsible="accordion">
+                            <li ng-repeat="(key, item) in electiveCourses">
                                 <div class="collapsible-header">
-                                    <input id="checkbox01" type="checkbox">
-                                    <label for="checkbox01" class="black-text">First course</label>
-                                    <span class="new badge" data-badge-caption="">详细信息</span>
-                                    <!--<span class="right">details</span>-->
+                                    {{ item.title }}
+                                    <span class="new badge" data-badge-caption="">{{ item.point }} 学分</span>
                                 </div>
                                 <div class="collapsible-body">
-                                    <p>
-                                        <span style="font-size: 150%;">课程名称</span> <br/> <br/>
-                                        教师：教师姓名 <br/>
-                                        教室：北1-101 <br/>
-                                        时间：第三周 - 第十六周 <br/> <br/>
-                                        简介：这是一段课程简介。这是一段课程简介。这是一段课程简介。这是一段课程简介。这是一段课程简介。这是一段课程简介。
-                                    </p>
+                                    <div class="row valign-wrapper" style="padding: 0px 40px;">
+                                        <div class="col s2">
+                                            <img ng-src="../imgs/{{ teachers[item.teacher_id].avator }}" alt="" class="circle responsive-img">
+                                        </div>
+                                        <div class="col s10">
+                                            <div class="row">
+                                                <div class="col s9">
+                                                    <p>
+                                                        <span style="font-size: 150%;">{{ item.title }}</span> <br/> <br/>
+                                                        教师：{{ teachers[item.teacher_id].username }} <br/>
+                                                        学分：{{ item.point }} <br/>
+                                                        时间：{{ item.time }} <br/>
+                                                        教室：{{ item.room }} <br/> <br/>
+                                                        简介：{{ item.intro }} <br/> <br/>
+                                                    </p>
+                                                </div>
+                                                <div class="col s3">
+                                                    <p>
+                                                        <span style="font-size: 150%;">成绩</span> <br/> <br/>
+                                                        <span style="font-size: 150%;">
+                                                            <span ng-if="item.score == -1">未评阅</span>
+                                                            <span ng-if="item.score != -1">{{ item.score }}</span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </li>
-                            <li>
-                                <div class="collapsible-header">
-                                    <input id="checkbox02" type="checkbox">
-                                    <label for="checkbox02" class="black-text">Second course</label>
-                                    <span class="new badge" data-badge-caption="">详细信息</span>
-                                    <!--<span class="right">details</span>-->
-                                </div>
-                                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-                            </li>
-                            <li>
-                                <div class="collapsible-header">
-                                    <input id="checkbox03" type="checkbox">
-                                    <label for="checkbox03" class="black-text">Third course</label>
-                                    <span class="new badge" data-badge-caption="">详细信息</span>
-                                    <!--<span class="right">details</span>-->
-                                </div>
-                                <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
                             </li>
                         </ul>
 
