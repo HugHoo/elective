@@ -64,5 +64,6 @@ app.get("/teacher/course", teacher.course);
 app.get("/teacher/students", teacher.students);
 app.get("/teacher/schools", teacher.schools);
 app.get("/teacher/majors", teacher.majors);
+app.post("/teacher/rating", teacher.rating);
 
 app.listen(3000, () => { console.log("Listening on http://localhost:3000")});

@@ -101,6 +101,7 @@
                                             <th>院系</th>
                                             <th>专业</th>
                                             <th>成绩</th>
+                                            <th>操作</th>
                                         </tr>
                                     </thead>
 
@@ -116,9 +117,13 @@
                                             <td>{{ schools[item.sid].school_name }}</td>
                                             <td>{{ majors[item.sid][item.mid].major_name }}</td>
                                             <td>
+                                                <span ng-if="electiveInfo[item.student_id].score < 0">未评阅</span>
+                                                <span ng-if="electiveInfo[item.student_id].score >= 0">{{ electiveInfo[item.student_id].score }}</span>
+                                            </td>
+                                            <td>
                                                 <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <!--<i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>-->
+                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" 
+                                                    style="padding: 3px; margin-right: 5px;" ng-click="rating(key, item.student_id)">create</i>                                        
                                                 </span>
                                             </td>
                                         </tr>
@@ -194,9 +199,34 @@
         </div>
     </div>
 
+    <!-- modal space -->
+    <div id="ratingModal" class="modal">
+        <div class="modal-content">
+            <h4>为 <span class="blue-text">{{ ratingObj.name }}</span> 评分 : {{ ratingObj.score }}</h4>
+            <p>
+                <form style="margin-top: 60px;">
+                    <p class="range-field">
+                        <input type="range" min="0" max="100" ng-model="ratingObj.score"/>
+                    </p>
+                </form>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <a class=" modal-action waves-effect modal-close waves-green btn-flat">取消</a>
+            <a class=" modal-action waves-effect waves-green btn-flat" ng-click="ratingSubmit()">确定</a>
+        </div>
+    </div>
+
     <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>
     <script type="text/javascript" src="../js/angular.min.js"></script>
     <script type="text/javascript" src="../js/teacher/index.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.modal').modal({
+                dismissible: false
+            });
+        });
+    </script>
 </body>
 </html>

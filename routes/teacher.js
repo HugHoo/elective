@@ -106,14 +106,14 @@ let teacher = {
 
                         // find all students'id from elective_info
                         let electiveColl = db.collection("elective_info");
-                        electiveColl.find({ course_id : course_id }).toArray(function(err, docs){
+                        electiveColl.find({ course_id : course_id }).toArray(function(err, elective_docs){
                             assert.equal(err, null);
 
-                            console.log("elective info : ", docs);
+                            console.log("elective info : ", elective_docs);
 
                             let student_id_coll = [];
-                            for(let i = 0; i < docs.length; i++){
-                                student_id_coll.push(docs[i].student_id);
+                            for(let i = 0; i < elective_docs.length; i++){
+                                student_id_coll.push(elective_docs[i].student_id);
                             }
 
                             console.log("student_id_coll : ", student_id_coll);
@@ -125,7 +125,10 @@ let teacher = {
 
                                 res.send({
                                     ok : 1,
-                                    data : docs
+                                    data : {
+                                        electiveInfo : elective_docs,
+                                        students : docs
+                                    }
                                 });
 
                                 db.close();                                
@@ -188,6 +191,33 @@ let teacher = {
             }
         });
     },
+
+    rating : function(req, res){
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("elective_info");
+                    collection.updateOne({ student_id : req.body.student_id },
+                    { $set : {
+                        score : req.body.score
+                    }}, function(err, r){
+                        assert.equal(null, err);
+                        assert.equal(1, r.result.n);
+
+                        res.send({
+                            ok : 1,
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    }
 
 }
 
