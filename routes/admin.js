@@ -302,7 +302,146 @@ let admin = {
                 });
             }
         });
-    }
+    },
+
+    majors : function(req, res){
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("major");
+                    collection.find({}).toArray(function(err, docs){
+                        assert.equal(err, null);
+
+                        console.log("获取所有专业");
+                        res.send({
+                            ok : 1,
+                            data : docs
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    students : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("student");
+                    collection.find({}).toArray(function(err, docs){
+                        assert.equal(err, null);
+
+                        console.log("获取所有学生");
+                        res.send({
+                            ok : 1,
+                            data : docs
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    add_student : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                req.body.password = passwordHash.generate(req.body.student_id);
+                
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("student");
+                    collection.insertOne(req.body, function(err, r){
+                        assert.equal(err, null);
+                        assert.equal(r.insertedCount, 1);
+
+                        // console.log(r.ops);
+                        console.log("添加学生成功");
+                        res.send({
+                            ok : 1,
+                            data : r.ops
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    update_student : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("student");
+                    collection.updateOne({ _id : ObjectID(req.body._id) },
+                    {
+                        student_id : req.body.student_id,
+                        username : req.body.username,
+                        sex : req.body.sex,
+                        mid : req.body.mid,
+                        sid : req.body.sid,
+                        tel : req.body.tel,
+                    }, function(err, result){
+                        assert.equal(null, err);
+                        assert.equal(1, result.result.n);
+
+                        console.log("更新学生成功");
+                        res.send({
+                            ok : 1
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    delete_student : function(req, res){
+        //check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("student");
+                    collection.deleteOne({ _id : ObjectID(req.body._id) }, function(err, result){
+                        assert.equal(err, null);
+                        assert.equal(result.result.n, 1);
+
+                        console.log("删除学生 [ %s ] 成功", req.body._id);
+                        res.send({
+                            ok : 1,
+                        });
+                    });
+                });
+            }
+        });
+    },
 }
 
 function checkSession(req, fn){

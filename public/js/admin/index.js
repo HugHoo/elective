@@ -35,6 +35,197 @@ app.controller("appCtrl", function($scope, $rootScope, $http){
         $("select").material_select();
     });
 
+    // get majors info
+    $http({
+        url : "./majors",
+        method : "get",
+    }).then(function(result, status){
+        let old_majors = result.data.data;
+
+        $scope.majors = new Array();
+        if(result.data.ok == 1){
+            for(let i = 0; i < old_majors.length; i++){
+                if(typeof $scope.majors[old_majors[i].sid] == 'undefined')
+                    $scope.majors[old_majors[i].sid] = {};
+                $scope.majors[old_majors[i].sid][old_majors[i].major_id] = old_majors[i];
+            }
+        }
+
+        console.log("majors : ", $scope.majors);
+    });
+
+});
+
+app.controller("studentCtrl", function($scope, $rootScope, $http){
+
+    // get all students
+    $http({
+        url : "./students",
+        method : "get"
+    }).then(function(data, status){
+        console.log("students : ", data);
+
+        let result = data.data;
+        if(result.ok == 1){
+            $scope.students = result.data;
+        }
+    });
+
+    $scope.editStudentModal = function(key){
+        console.log("eidt key : ", key);
+
+        $rootScope.$emit("showEditStudentModal", { key : key, data : angular.copy($scope.students[key]) });
+    }
+
+    $scope.deleteStudentModal = function(key){
+        $rootScope.$emit("showDeleteStudentModal", { key : key, data : angular.copy($scope.students[key]) });
+    }
+
+    $rootScope.$on("addStudentSuccess", function(event, newStudent){
+        console.log("studentCtrl : ", newStudent);
+        Materialize.toast('添加学生成功!', 4000); 
+
+        $scope.students[$scope.students.length] = newStudent;
+    });
+
+    $rootScope.$on("editStudentSuccess", function(event, data){
+        console.log("Student edited : ", data);
+        Materialize.toast('修改学生成功!', 4000); 
+
+        $scope.students[data.key] = data.data;        
+    });
+
+    $rootScope.$on("deleteStudentSuccess", function(event, data){
+        console.log("Student delete : " + data.key);
+        Materialize.toast("删除学生成功", 4000);
+
+        console.log($scope.students.length);
+        $scope.students.splice(data.key);
+        console.log($scope.students.length);
+    })
+
+});
+
+app.controller("addStudentModalCtrl", function($scope, $rootScope, $http){
+
+    // let majors01 = $scope.majors = [
+    //     { major_id : 0, major_name : "软件工程" },
+    //     { major_id : 1, major_name : "计算机科学与技术" },
+    //     { major_id : 2, major_name : "电子工程" },
+    //     { major_id : 3, major_name : "通信工程" },
+    // ];
+
+    // let majors02 = [
+    //     { major_id : 4, major_name : "软件工程02" },
+    //     { major_id : 5, major_name : "计算机科学与技术02" },
+    //     { major_id : 6, major_name : "电子工程02" }
+    // ]
+
+    $scope.newStudentInit = $scope.newStudent = {
+        // sid : 0,
+        student_id : "20142480xxx",
+        username : "学生xxx",
+        tel : 13839162000
+        // sex : 0
+    }
+
+    $scope.schoolSelectChange = function(){
+        console.log("school select : ", $scope.newStudent.sid);
+
+        $scope.nowMajors = [];
+        $scope.nowMajors = angular.copy($scope.$parent.majors[$scope.newStudent.sid]);
+    }
+
+    $scope.addStudentSubmit = function(){
+        console.log($scope.newStudent);
+
+        $http({
+            url : "./add_student",
+            method : "post",
+            data : $scope.newStudent
+        }).then(function(r, status){
+            let result = r.data;
+            // console.log(r);
+
+            if(result.ok == 1){
+                $scope.newStudent = angular.copy($scope.newStudentInit);
+
+                // console.log(result.data[0]);
+                $rootScope.$emit("addStudentSuccess", result.data[0]);
+            }
+        });
+    }
+});
+
+app.controller("editStudentModalCtrl", function($scope, $rootScope, $http){
+    let key = -1;
+
+    $rootScope.$on("showEditStudentModal", function(event, data){
+        key = data.key;
+        let editStudent = data.data;
+
+        console.log("Edit Student : ", editStudent);
+
+        $scope.editStudent = editStudent;
+        $scope.nowMajors = $scope.$parent.majors[$scope.editStudent.sid];        
+
+        $('#editStudentModal').modal('open');
+    });
+
+    $scope.schoolSelectChange = function(){
+        console.log("school select : ", $scope.editStudent.sid);
+
+        $scope.nowMajors = [];
+        $scope.nowMajors = angular.copy($scope.$parent.majors[$scope.editStudent.sid]);
+    }
+
+    $scope.editStudentSubmit = function(){
+        console.log("Edited : ", $scope.editStudent);
+
+        $http({
+            url : "./update_student",
+            method : "post",
+            data : $scope.editStudent
+        }).then(function(result, status){
+            console.log(result);
+
+            if(result.data.ok == 1){
+                $rootScope.$emit("editStudentSuccess", { key : key, data : angular.copy($scope.editStudent)});
+            }
+        });
+    }
+
+});
+
+app.controller("deleteStudentModalCtrl", function($scope, $rootScope, $http){
+    let key = -1;
+
+    $rootScope.$on("showDeleteStudentModal", function(event, data){
+        key = data.key;
+        $scope.deleteStudent = data.data;
+
+        console.log("delete " + data.key);
+        $("#deleteStudentModal").modal("open");
+    });
+
+    $scope.deleteStudentSubmit = function(){
+        console.log("delete comfirm : " + key);
+
+        $http({
+            url : "./delete_student",
+            method : "post",
+            data : {
+                _id : $scope.deleteStudent._id
+            }
+        }).then(function(result, status){
+            console.log(result);
+
+            if(result.data.ok == 1){
+                $rootScope.$emit("deleteStudentSuccess", { key : key });
+            }
+        });
+    }
+
 });
 
 app.controller("teacherCtrl", function($scope, $rootScope, $http){
@@ -98,7 +289,6 @@ app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
 
     $scope.addTeacherSubmit = function(){
         console.log($scope.newTeacher);
-        console.log("file : ", $scope.file);
 
         $http({
             url : "./add_teacher",
