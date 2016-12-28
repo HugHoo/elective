@@ -54,6 +54,19 @@ app.controller("appCtrl", function($scope, $rootScope, $http){
         console.log("majors : ", $scope.majors);
     });
 
+    // get all teachers
+    $http({
+        url : "./teachers",
+        method : "get"
+    }).then(function(data, status){
+        console.log("all teachers : ", data);
+
+        let result = data.data;
+        if(result.ok == 1){
+            $scope.allTeachers = result.data;
+        }
+    });
+
 });
 
 app.controller("studentCtrl", function($scope, $rootScope, $http){
@@ -100,7 +113,7 @@ app.controller("studentCtrl", function($scope, $rootScope, $http){
         Materialize.toast("删除学生成功", 4000);
 
         console.log($scope.students.length);
-        $scope.students.splice(data.key);
+        $scope.students.splice(data.key, 1);
         console.log($scope.students.length);
     })
 
@@ -241,7 +254,7 @@ app.controller("teacherCtrl", function($scope, $rootScope, $http){
         if(result.ok == 1){
             $scope.teachers = result.data;
         }
-    });
+    });   
 
     $scope.editTeacherModal = function(key){
         console.log("eidt key : ", key);
@@ -272,7 +285,7 @@ app.controller("teacherCtrl", function($scope, $rootScope, $http){
         Materialize.toast("删除教师成功", 4000);
 
         console.log($scope.teachers.length);
-        $scope.teachers.splice(data.key);
+        $scope.teachers.splice(data.key, 1);
         console.log($scope.teachers.length);
     })
 
@@ -290,21 +303,56 @@ app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
     $scope.addTeacherSubmit = function(){
         console.log($scope.newTeacher);
 
-        $http({
-            url : "./add_teacher",
-            method : "post",
-            data : $scope.newTeacher
-        }).then(function(r, status){
-            let result = r.data;
-            // console.log(r);
+        uploadFile(function(result, fileInfo){
+            let teacherInfo = angular.copy($scope.newTeacher);
 
-            if(result.ok == 1){
-                $scope.newTeacher = angular.copy($scope.newTeacherInit);
-
-                // console.log(result.data[0]);
-                $rootScope.$emit("addTeacherSuccess", result.data[0]);
+            if(result == 1){
+                teacherInfo.fileInfo = fileInfo;
+                let fileNameArr = fileInfo.fileName.split(".");
+                teacherInfo.avator = teacherInfo.teacher_id + "." + fileNameArr[fileNameArr.length - 1];
             }
+
+            $http({
+                url : "./add_teacher",
+                method : "post",
+                data : teacherInfo
+            }).then(function(r, status){
+                let result = r.data;
+                // console.log(r);
+
+                if(result.ok == 1){
+                    $scope.newTeacher = angular.copy($scope.newTeacherInit);
+
+                    // console.log(result.data[0]);
+                    $rootScope.$emit("addTeacherSuccess", result.data[0]);
+                }
+            });
         });
+    }
+
+    function uploadFile(fn){
+        let f = $('#addTeacherFile')[0].files[0];
+        let r = new FileReader();
+
+        if(typeof f == "undefined"){
+            fn(0);
+        }else{
+            let fileName = f.name;
+            // let fileName = "test233." + fileNameArr[fileNameArr.length - 1];
+
+            r.onloadend = function(e){
+                // console.log(e);
+                console.log(fileName);
+                var data = e.target.result;
+                
+                fn(1, {
+                    fileName : fileName,
+                    file : data
+                });
+            }
+
+            r.readAsBinaryString(f);
+        }
     }
 });
 
@@ -323,18 +371,54 @@ app.controller("editTeacherModalCtrl", function($scope, $rootScope, $http){
 
     $scope.editTeacherSubmit = function(){
         console.log("Edited : ", $scope.editTeacher);
+        
+        uploadFile(function(result, fileInfo){
+            let teacherInfo = angular.copy($scope.editTeacher);
 
-        $http({
-            url : "./update_teacher",
-            method : "post",
-            data : $scope.editTeacher
-        }).then(function(result, status){
-            console.log(result);
-
-            if(result.data.ok == 1){
-                $rootScope.$emit("editTeacherSuccess", { key : key, data : angular.copy($scope.editTeacher)});
+            if(result == 1){
+                teacherInfo.fileInfo = fileInfo;
+                let fileNameArr = fileInfo.fileName.split(".");
+                teacherInfo.avator = teacherInfo.teacher_id + "." + fileNameArr[fileNameArr.length - 1];
             }
+
+            $http({
+                url : "./update_teacher",
+                method : "post",
+                data : teacherInfo
+            }).then(function(result, status){
+                console.log(result);
+
+                if(result.data.ok == 1){
+                    $rootScope.$emit("editTeacherSuccess", { key : key, data : angular.copy($scope.editTeacher)});
+                }
+            });
         });
+
+    }
+
+    function uploadFile(fn){
+        let f = $('#editTeacherFile')[0].files[0];
+        let r = new FileReader();
+
+        if(typeof f == "undefined"){
+            fn(0);
+        }else{
+            let fileName = f.name;
+            // let fileName = "test233." + fileNameArr[fileNameArr.length - 1];
+
+            r.onloadend = function(e){
+                // console.log(e);
+                console.log(fileName);
+                var data = e.target.result;
+                
+                fn(1, {
+                    fileName : fileName,
+                    file : data
+                });
+            }
+
+            r.readAsBinaryString(f);
+        }
     }
 
 });
@@ -414,7 +498,7 @@ app.controller("courseCtrl", function($scope, $rootScope, $http){
         Materialize.toast("删除课程成功", 4000);
 
         console.log($scope.courses.length);
-        $scope.courses.splice(data.key);
+        $scope.courses.splice(data.key, 1);
         console.log($scope.courses.length);
     })
 

@@ -8,7 +8,7 @@ let admin = require('./routes/admin');
 
 let app = express();
 
-app.use(express.static("public"));
+app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -62,8 +62,8 @@ app.post("/admin/add_course", admin.add_course);
 app.post("/admin/update_course", admin.update_course);
 app.post("/admin/delete_course", admin.delete_course);
 app.get("/admin/teachers", admin.teachers);
-app.post("/admin/add_teacher", admin.add_teacher);
-app.post("/admin/update_teacher", admin.update_teacher);
+app.post("/admin/add_teacher", (req, res) => { admin.add_teacher(app, req, res); });
+app.post("/admin/update_teacher", (req, res) => { admin.update_teacher(app, req, res); });
 app.post("/admin/delete_teacher", admin.delete_teacher);
 app.get("/admin/schools", admin.schools);
 app.get("/admin/majors", admin.majors);
@@ -71,5 +71,6 @@ app.get("/admin/students", admin.students);
 app.post("/admin/add_student", admin.add_student);
 app.post("/admin/update_student", admin.update_student);
 app.post("/admin/delete_student", admin.delete_student);
+// app.post("/admin/teacher_image", (req, res) => { admin.teacher_image(app, req, res); });
 
 app.listen(3000, () => { console.log("Listening on http://localhost:3000")});

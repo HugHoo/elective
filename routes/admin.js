@@ -2,6 +2,8 @@ let assert = require("assert");
 let passwordHash = require("password-hash");
 let mongoClient = require("mongodb").MongoClient;
 let ObjectID = require("mongodb").ObjectID;
+let fs = require("fs");
+
 let url = "mongodb://localhost:2333/elective";
 
 let admin = {
@@ -123,11 +125,13 @@ let admin = {
                     let courseColl = db.collection("course");
                     courseColl.updateOne({ _id : ObjectID(req.body._id) },
                     {
-                        title : req.body.title,
-                        time : req.body.time,
-                        point : req.body.point,
-                        room : req.body.room,
-                        intro : req.body.intro,
+                        $set : {
+                            title : req.body.title,
+                            time : req.body.time,
+                            point : req.body.point,
+                            room : req.body.room,
+                            intro : req.body.intro,
+                        }
                     }, function(err, result){
                         assert.equal(null, err);
                         assert.equal(1, result.result.n);
@@ -193,13 +197,22 @@ let admin = {
         });
     },
 
-    add_teacher : function(req, res){
+    add_teacher : function(app, req, res){
         // check session
         checkSession(req, function(result){
             if(!result){
                 res.redirect("./login");
             }else{
                 req.body.password = passwordHash.generate(req.body.teacher_id);
+
+                if(typeof req.body.fileInfo != "undefined"){
+                    imageStore(app, req);
+                    delete req.body.fileInfo;
+                }else{
+                    req.body.avator = "default.png"
+                }
+
+                console.log("avator : ", req.body.avator);
 
                 mongoClient.connect(url, function(err, db){
                     assert.equal(err, null);
@@ -223,22 +236,32 @@ let admin = {
         });
     },
 
-    update_teacher : function(req, res){
+    update_teacher : function(app, req, res){
         // check session
         checkSession(req, function(result){
             if(!result){
                 res.redirect("./login");
             }else{
+                if(typeof req.body.fileInfo != "undefined"){
+                    imageStore(app, req);
+                    delete req.body.fileInfo;
+                }else if(typeof req.body.avator == "undefined" || req.body.avator == ""){
+                    req.body.avator = "default.png";
+                }
+
                 mongoClient.connect(url, function(err, db){
                     assert.equal(err, null);
 
                     let teacherColl = db.collection("teacher");
                     teacherColl.updateOne({ _id : ObjectID(req.body._id) },
                     {
-                        teacher_id : req.body.teacher_id,
-                        sid : req.body.sid,
-                        username : req.body.username,
-                        sex : req.body.sex,
+                        $set : {
+                            teacher_id : req.body.teacher_id,
+                            sid : req.body.sid,
+                            username : req.body.username,
+                            sex : req.body.sex,
+                            avator : req.body.avator,
+                        }
                     }, function(err, result){
                         assert.equal(null, err);
                         assert.equal(1, result.result.n);
@@ -397,12 +420,13 @@ let admin = {
                     let collection = db.collection("student");
                     collection.updateOne({ _id : ObjectID(req.body._id) },
                     {
-                        student_id : req.body.student_id,
-                        username : req.body.username,
-                        sex : req.body.sex,
-                        mid : req.body.mid,
-                        sid : req.body.sid,
-                        tel : req.body.tel,
+                        $set : {
+                            username : req.body.username,
+                            sex : req.body.sex,
+                            mid : req.body.mid,
+                            sid : req.body.sid,
+                            tel : req.body.tel
+                        }
                     }, function(err, result){
                         assert.equal(null, err);
                         assert.equal(1, result.result.n);
@@ -441,7 +465,15 @@ let admin = {
                 });
             }
         });
-    },
+    }
+
+    // teacher_image : function(app, req, res){
+    //     fs.writeFileSync(app.get("public") + "/imgs/" + req.body.fileName, req.body.file, { encoding : "binary" });
+
+    //     res.send({
+    //         ok : 1
+    //     })
+    // }
 }
 
 function checkSession(req, fn){
@@ -475,6 +507,11 @@ function authenticate(admin, fn){
             db.close();
         });
     });
+}
+
+function imageStore(app, req){
+    fs.writeFileSync(app.get("public") + "/imgs/" + req.body.avator, req.body.fileInfo.file, { encoding : "binary" });
+    console.log("图片 [ %s ] 上传成功", req.body.avator);
 }
 
 module.exports = admin;
