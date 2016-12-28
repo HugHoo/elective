@@ -116,8 +116,6 @@ let student = {
             if(!result){
                 res.redirect("./login");
             }else{
-                console.log("req query : ", req.query);
-
                 mongoClient.connect(url, function(err, db){
                     assert.equal(err, null);
 
@@ -143,6 +141,7 @@ let student = {
                 res.redirect("./login");
             }else{
                 let length = req.body.length;
+                console.log("delete : ", req.body);
 
                 mongoClient.connect(url, function(err, db){
                     assert.equal(err, null);
@@ -151,20 +150,27 @@ let student = {
                     collection.deleteMany({ student_id : req.session.student.student_id }, function(err, r){
                         assert.equal(err, null);
                         assert.equal(1, r.result.ok);
+
+                        if(req.body != null){
+                            collection.insertMany(req.body, function(err, obj){
+                                assert.equal(err, null);
+                                assert.equal(length, obj.result.n);
+                                assert.equal(length, obj.ops.length);
+
+                                console.log("new elective : ", obj.ops);
+
+                                res.send({
+                                    ok : 1,
+                                    data : obj.ops
+                                });
+                                
+                                db.close();
+                            });
+                        }else{
+                            db.close();
+                        }
                     });
 
-                    collection.insertMany(req.body, function(err, obj){
-                        assert.equal(err, null);
-                        assert.equal(length, obj.result.n);
-                        assert.equal(length, obj.ops.length);
-
-                        res.send({
-                            ok : 1,
-                            data : obj.ops
-                        });
-                    });
-
-                    db.close();
                 });
             }
         });

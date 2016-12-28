@@ -3,6 +3,7 @@ let passwordHash = require("password-hash");
 let mongoClient = require("mongodb").MongoClient;
 let ObjectID = require("mongodb").ObjectID;
 let fs = require("fs");
+let shortid = require("shortid");
 
 let url = "mongodb://localhost:2333/elective";
 
@@ -91,6 +92,8 @@ let admin = {
             if(!result){
                 res.redirect("./login");
             }else{
+                req.body.course_id = shortid.generate();
+
                 mongoClient.connect(url, function(err, db){
                     assert.equal(err, null);
 
@@ -131,7 +134,7 @@ let admin = {
                             point : req.body.point,
                             room : req.body.room,
                             intro : req.body.intro,
-                            teacher_id : req.body.teacher_id
+                            teacher_id : req.body.teacher_id,
                         }
                     }, function(err, result){
                         assert.equal(null, err);

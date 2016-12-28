@@ -60,7 +60,7 @@
                             <li ng-repeat="(key, item) in courses">
                                 <div class="collapsible-header">
                                     <input id="{{ item._id }}" type="checkbox" ng-model="courseSelect[key]">
-                                    <label for="{{ item._id }}" class="black-text">{{ item.title }}</label>
+                                    <label for="{{ item._id }}" class="black-text">{{ item.title }} </label>
                                     <span class="new badge" data-badge-caption="">{{ item.point }} 学分</span>
                                 </div>
                                 <div class="collapsible-body">

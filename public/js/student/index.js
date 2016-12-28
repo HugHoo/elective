@@ -46,7 +46,7 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
 
         for(let i = 0; i < $scope.courses.length; i++){
             for(let j = 0; j < electiveInfo.length; j++){
-                if($scope.courses[i]._id == electiveInfo[j].course_id){
+                if($scope.courses[i].course_id == electiveInfo[j].course_id){
                     $scope.courseSelect[i] = true;
                 }
             }
@@ -60,7 +60,7 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
         $scope.electiveCourses = new Array();
         for(let i = 0; i < $scope.courses.length; i++){
             for(let j = 0; j < electiveInfo.length; j++){
-                if($scope.courses[i]._id == electiveInfo[j].course_id){
+                if($scope.courses[i].course_id == electiveInfo[j].course_id){
                     $scope.electiveCourses[num++] = Object.assign($scope.courses[i], electiveInfo[j]);
                 }
             }
@@ -95,10 +95,10 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
         let electiveInfo = new Array();
         for(let i = 0; i < $scope.courseSelect.length; i++){
             if($scope.courseSelect[i] == true){
-                console.log(i);
+                console.log($scope.courses[i].course_id);
 
                 electiveInfo.push({
-                    course_id : $scope.courses[i]._id,
+                    course_id : $scope.courses[i].course_id,
                     student_id : $scope.currentStudent.student_id,
                     score : -1
                 });

@@ -6,6 +6,7 @@ let passwordHash = require("password-hash");
 
 let admin = require('./routes/admin');
 let student = require("./routes/student");
+let teacher = require("./routes/teacher");
 
 let app = express();
 
@@ -54,5 +55,14 @@ app.get("/student/courses", student.courses);
 app.get("/student/teachers", student.teachers);
 app.get("/student/elective", student.electives);
 app.post("/student/elective", student.add_elective);
+
+app.get("/teacher/index", (req, res) => { teacher.index(app, req, res); });
+app.get("/teacher/login", (req, res) => { teacher.login(app, req, res); });
+app.post("/teacher/login", (req, res) => { teacher.login_do(app, req, res); });
+app.get("/teacher/teacher_profile", teacher.teacher_profile);
+app.get("/teacher/course", teacher.course);
+app.get("/teacher/students", teacher.students);
+app.get("/teacher/schools", teacher.schools);
+app.get("/teacher/majors", teacher.majors);
 
 app.listen(3000, () => { console.log("Listening on http://localhost:3000")});
