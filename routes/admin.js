@@ -131,6 +131,7 @@ let admin = {
                             point : req.body.point,
                             room : req.body.room,
                             intro : req.body.intro,
+                            teacher_id : req.body.teacher_id
                         }
                     }, function(err, result){
                         assert.equal(null, err);

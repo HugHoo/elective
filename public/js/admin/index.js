@@ -42,7 +42,7 @@ app.controller("appCtrl", function($scope, $rootScope, $http){
     }).then(function(result, status){
         let old_majors = result.data.data;
 
-        $scope.majors = new Array();
+        $scope.majors = new Object();
         if(result.data.ok == 1){
             for(let i = 0; i < old_majors.length; i++){
                 if(typeof $scope.majors[old_majors[i].sid] == 'undefined')
@@ -59,11 +59,17 @@ app.controller("appCtrl", function($scope, $rootScope, $http){
         url : "./teachers",
         method : "get"
     }).then(function(data, status){
-        console.log("all teachers : ", data);
-
         let result = data.data;
+
+        $scope.allTeachers = new Object();
         if(result.ok == 1){
-            $scope.allTeachers = result.data;
+            let allTeachers = result.data;
+
+            for(let i = 0; i < allTeachers.length; i++){
+                $scope.allTeachers[allTeachers[i].teacher_id] = allTeachers[i];
+            }
+
+            console.log("all teachers : ", $scope.allTeachers);            
         }
     });
 
