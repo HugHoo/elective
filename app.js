@@ -5,6 +5,7 @@ let session = require("express-session");
 let passwordHash = require("password-hash");
 
 let admin = require('./routes/admin');
+let student = require("./routes/student");
 
 let app = express();
 
@@ -21,36 +22,8 @@ app.use(session({
 app.set("views", __dirname + "/views"); 
 app.set("public", __dirname + "/public");
 
-// let admin = {
-//     index : function(app, req, res){
-//         if(!req.session.admin){
-//             res.redirect("./login");
-//         }else{
-//             res.sendFile(app.get("views") + "/admin/index.html");
-//         }
-//     },
-
-//     login : function(app, req, res){
-//         res.sendFile(app.get("views") + "/admin/login.html");
-//     },
-
-//     login_do : function(app, req, res){
-//         res.send({
-//             ok : 1,
-//             data : "ok"
-//         });
-//     }
-// }
-
 app.get("/", (req, res) => {
-    // let p1 = passwordHash.generate("admin");
-    // let p2 = passwordHash.generate("admin");
-    // console.log(p1);
-    // console.log(p2);
-    // console.log(passwordHash.verify("admin", p1));
-    // console.log(passwordHash.verify("admin", p2));
-    // res.send("elective admin page.");
-    res.sendFile(app.get("views") + "/student/index.html");
+    res.sendFile(app.get("views") + "/index.html");
 });
 
 app.get("/admin/index", (req, res) => { admin.index(app, req, res); });
@@ -72,5 +45,14 @@ app.post("/admin/add_student", admin.add_student);
 app.post("/admin/update_student", admin.update_student);
 app.post("/admin/delete_student", admin.delete_student);
 // app.post("/admin/teacher_image", (req, res) => { admin.teacher_image(app, req, res); });
+
+app.get("/student/index", (req, res) => { student.index(app, req, res); });
+app.get("/student/login", (req, res) => { student.login(app, req, res); });
+app.post("/student/login", (req, res) => { student.login_do(app, req, res); });
+app.get("/student/student_profile", student.student_profile);
+app.get("/student/courses", student.courses);
+app.get("/student/teachers", student.teachers);
+app.get("/student/elective", student.electives);
+app.post("/student/elective", student.add_elective);
 
 app.listen(3000, () => { console.log("Listening on http://localhost:3000")});
