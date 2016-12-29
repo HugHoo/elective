@@ -140,7 +140,15 @@ app.controller("addStudentModalCtrl", function($scope, $rootScope, $http){
     //     { major_id : 6, major_name : "电子工程02" }
     // ]
 
-    $scope.newStudentInit = $scope.newStudent = {
+    $scope.newStudentInit = {
+        // sid : 0,
+        student_id : "20142480xxx",
+        username : "学生xxx",
+        tel : 13839162000
+        // sex : 0
+    }
+
+    $scope.newStudent = {
         // sid : 0,
         student_id : "20142480xxx",
         username : "学生xxx",
@@ -299,7 +307,14 @@ app.controller("teacherCtrl", function($scope, $rootScope, $http){
 
 app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
 
-    $scope.newTeacherInit = $scope.newTeacher = {
+    $scope.newTeacherInit = {
+        // sid : 0,
+        teacher_id : "20160x",
+        username : "教师0x"
+        // sex : 0
+    }
+
+    $scope.newTeacher = {
         // sid : 0,
         teacher_id : "20160x",
         username : "教师0x"
@@ -355,6 +370,9 @@ app.controller("addTeacherModalCtrl", function($scope, $rootScope, $http){
                     fileName : fileName,
                     file : data
                 });
+
+                $('#addTeacherFile').val("");
+                $("#addTeacherFileInfo").val("");
             }
 
             r.readAsBinaryString(f);
@@ -421,6 +439,9 @@ app.controller("editTeacherModalCtrl", function($scope, $rootScope, $http){
                     fileName : fileName,
                     file : data
                 });
+
+                $('#editTeacherFile').val("");
+                $("#editTeacherFileInfo").val("");
             }
 
             r.readAsBinaryString(f);
@@ -512,7 +533,14 @@ app.controller("courseCtrl", function($scope, $rootScope, $http){
 
 app.controller("addCourseModalCtrl", function($scope, $rootScope, $http){
 
-    $scope.newCourseInit = $scope.newCourse = {
+    $scope.newCourseInit = {
+        title : "课程0x",
+        room : "北1-10x",
+        time : "第二周 - 第十六周 周三 5-6节",
+        intro : "这是课程0x的简介。这是课程0x的简介。这是课程0x的简介。这是课程0x的简介。这是课程0x的简介。这是课程0x的简介。这是课程0x的简介。这是课程0x的简介。这是课程0x的简介。"
+    }
+
+    $scope.newCourse = {
         title : "课程0x",
         room : "北1-10x",
         time : "第二周 - 第十六周 周三 5-6节",

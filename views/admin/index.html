@@ -47,9 +47,9 @@
                         <li class="tab">
                             <a href="#course_manage">课程</a>
                         </li>
-                        <li class="tab">
+                        <!--<li class="tab">
                             <a href="#elective_info_manage">选修信息</a>
-                        </li>
+                        </li>-->
                     </ul>
                 </div>
             </nav>
@@ -60,20 +60,6 @@
                 <div class="row">
                     <div class="col s12 l8 offset-l2 m12 cus-m-b20" style="margin-top: 8px;">
                         <div class="row">
-                            <!--<div class="col s12">
-                                <nav>
-                                    <div class="nav-wrapper white">
-                                    <form>
-                                        <div class="input-field">
-                                        <input id="search" type="search" required>
-                                        <label for="search"><i class="material-icons">search</i></label>
-                                        <i class="material-icons">close</i>
-                                        </div>
-                                    </form>
-                                    </div>
-                                </nav>
-                            </div>-->
-
                             <div class="col s12" >
                                 <table class="bordered highlight centered responsive-table">
                                     <thead>
@@ -222,7 +208,7 @@
                 </div>
             </div>
 
-            <div id="elective_info_manage">
+            <!--<div id="elective_info_manage">
                 <div class="row">
                     <div class="col l2 m12 s12">
                         <div class="collection z-depth-1">
@@ -235,9 +221,7 @@
 
                     <div class="col s12 l8 m12 cus-m-b20" style="margin-top: 8px;">
                         <div class="row">
-                            <!-- filter operation -->
                             <div class="col s12">
-                                <!--Filter operation-->
                                 <nav>
                                     <div class="nav-wrapper white">
                                     <form>
@@ -251,7 +235,6 @@
                                 </nav>
                             </div>
 
-                            <!-- table list -->
                             <div class="col s12" style="margin-top: 20px;">
                                 <table class="bordered highlight centered responsive-table">
                                     <thead>
@@ -349,7 +332,7 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                        <tr讕
+                                        <tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -368,7 +351,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 
@@ -438,12 +421,11 @@
                 </div>
                 <div class="row">
                     <div class="input-field col l6 s12">
-                        <select ng-model="editStudent.sex">
+                        <select class="browser-default" ng-model="editStudent.sex">
                             <option value="" disabled selected>选择性别</option>
                             <option value="0">男</option>
                             <option value="1">女</option>
                         </select>
-                        <label>性别</label>
                     </div>
                     <div class="input-field col l6 s12">
                         <input id="Student_tel" type="text" class="validate" length="20" ng-model="editStudent.tel" placeholder=" ">
@@ -459,8 +441,6 @@
                     <div class="col l6 s12">
                         <select class="browser-default" ng-model="editStudent.mid" ng-options="item.major_id as item.major_name for item in nowMajors">
                             <option value="" disabled selected>选择专业</option>
-                            <option value="0">软件工程</option>
-                            <option value="1">什么专业？</option>
                         </select>
                     </div>
                 </div>
@@ -519,7 +499,7 @@
                             <input id="addTeacherFile" type="file">
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" ng-model="file">
+                            <input id="addTeacherFileInfo" class="file-path validate" type="text" ng-model="file">
                         </div>
                     </div>
                 </div>
@@ -547,19 +527,15 @@
                 </div>
                 <div class="row">
                     <div class="input-field col l6 s12">
-                        <select ng-model="editTeacher.sex" placeholder=" ">
+                        <select class="browser-default" ng-model="editTeacher.sex" placeholder=" ">
                             <option value="" disabled selected>选择性别</option>
                             <option value="0">男</option>
                             <option value="1">女</option>
                         </select>
-                        <label>性别</label>
                     </div>
                     <div class="input-field col l6 s12">
                         <select class="browser-default" ng-model="editTeacher.sid" ng-options="item.school_id as item.school_name for item in schools">
                             <option value="" disabled selected>选择学院</option>
-                            <!--<option ng-repeat="(key, item) in schools" value="{{ item.school_id }}">{{ item.school_name }}</option>-->
-                            <!--<option value="0">信息工程学院</option>
-                            <option value="1">不知道是什么学院</option>-->
                         </select>
                     </div>
                 </div>
@@ -570,7 +546,7 @@
                             <input id="editTeacherFile" type="file">
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" ng-model="file">
+                            <input id="editTeacherFileInfo" class="file-path validate" type="text" ng-model="file">
                         </div>
                     </div>
                 </div>
@@ -660,12 +636,12 @@
                         <label for="course_time">时间</label>
                     </div>
                     <div class="input-field col l6 s12">
-                        <select id="editCoursePointSelect" ng-model="editCourse.point">
+                        <select class="browser-default" id="editCoursePointSelect" ng-model="editCourse.point">
                             <option value="" disabled>选择学分</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                         </select>
-                        <label>学分 {{ editCourse.point }}</label>
+                        <!--<label>学分 {{ editCourse.point }}</label>-->
                     </div>
                 </div>
                 <div class="row">
