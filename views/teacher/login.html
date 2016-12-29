@@ -19,22 +19,26 @@
                 <nav class="blue nav-extended cus-m-b20">
                     <div class="nav-wrapper">
                         <a href="" class="brand-logo">
-                            <span class="cus-p-l20 cus-f-w300">Teacher</span>
+                            <span class="cus-p-l20 cus-f-w300">教师登陆</span>
                         </a>
                         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
-                            <li><a href="#" class="cus-f-w300"><i class="material-icons">format_list_bulleted</i></a></li>
+                            <li>
+                                <a href="../" class="cus-f-w300 tooltipped" data-position="right" data-delay="50" data-tooltip="返回首页">
+                                    <i class="material-icons">keyboard_return</i>
+                                </a>
+                            </li>
                         </ul>
                         <ul class="side-nav" id="mobile-demo">
-                            <li><a href="#" class="cus-f-w300"><i class="material-icons">format_list_bulleted</i></a></li>
+                            <li><a href="../" class="cus-f-w300 tooltipped" data-position="right" data-delay="50" data-tooltip="返回首页"><i class="material-icons">keyboard_return</i></a></li>
                         </ul>
 
                         <ul class="tabs tabs-transparent">
                             <li class="tab">
-                                <a href="#login" class="active">Login</a>
+                                <a href="#login" class="active">登陆</a>
                             </li>
                             <li class="tab">
-                                <a href="#signup">Sign up</a>
+                                <a href="#signup">注册</a>
                             </li>
                         </ul>
                     </div>
@@ -47,20 +51,20 @@
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">face</i>
                                     <input name="teacher_id" id="teacher_id" type="text" class="validate" autofocus="on" ng-model="teacher.teacher_id">
-                                    <label for="teacher_id">Teacher ID</label>
+                                    <label for="teacher_id">教师工号</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">fingerprint</i>
                                     <input name="password" id="password" type="password" class="validate" ng-model="teacher.password">
-                                    <label for="password">Password</label>
+                                    <label for="password">密码</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s12" style="padding-left: 20px;">
                                     <input name="is_cookie" type="checkbox" id="iscookie" ng-model="teacher.is_cookie">
-                                    <label for="iscookie">Remember me</label>
+                                    <label for="iscookie">记住我</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -71,7 +75,7 @@
                             <div class="row">
                                 <div class="col s12">
                                     <button class="btn blue waves-effect waves-light right" ng-click="loginFormSubmit()">
-                                        Login
+                                        登陆
                                     </button>
                                 </div>
                             </div>
