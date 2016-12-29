@@ -119,4 +119,18 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
         });
     }
 
+    // system setting
+    $http({
+        url : "./system",
+        method : "get"
+    }).then(function(data, status){
+        console.log(data.data);
+
+        if(data.data.ok == 1){
+            $scope.system = data.data.data;
+            
+            console.log("system setting : ", $scope.system);
+        }
+    });
+
 }]);

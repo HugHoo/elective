@@ -174,7 +174,33 @@ let student = {
                 });
             }
         });
-    }
+    },
+
+    system : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("system");
+                    collection.find({ system_id : 0 }).toArray(function(err, docs){
+                        assert.equal(err, null);
+
+                        console.log("system setting : ", docs);
+                        res.send({
+                            ok : 1,
+                            data : docs[0]
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
 }
 
 function checkSession(req, fn){

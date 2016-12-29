@@ -58,6 +58,7 @@ app.get("/student/courses", student.courses);
 app.get("/student/teachers", student.teachers);
 app.get("/student/elective", student.electives);
 app.post("/student/elective", student.add_elective);
+app.get("/student/system", student.system);
 
 app.get("/teacher/index", (req, res) => { teacher.index(app, req, res); });
 app.get("/teacher/login", (req, res) => { teacher.login(app, req, res); });
@@ -68,5 +69,6 @@ app.get("/teacher/students", teacher.students);
 app.get("/teacher/schools", teacher.schools);
 app.get("/teacher/majors", teacher.majors);
 app.post("/teacher/rating", teacher.rating);
+app.get("/teacher/system", teacher.system);
 
 app.listen(3000, () => { console.log("Listening on http://localhost:3000")});
