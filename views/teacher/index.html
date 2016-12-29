@@ -196,6 +196,46 @@
                     </div>-->
                 </div>
             </div>
+
+            <div id="charts">
+                <div class="row" style="margin-top: 70px;">
+                    <div class="col l10 s12">
+                        <canvas id="base" class="chart-base" chart-type="type"
+                            chart-data="data" chart-labels="labels" >
+                        </canvas>
+                        <div class="center" style="margin-top: 40px;">
+                            <button class="btn waves-effect waves-light blue" ng-click="labelToggle()">标签切换</button>
+                            <button class="btn waves-effect waves-light blue" ng-click="chartToggle()">图标切换</button>
+                        </div>
+                    </div>
+                    <div class="col l2 s12" style="margin-top: 40px;">
+                        <span class="valign-wrapper left">
+                            <i class="material-icons" style="color: rgba(151,187,205,1)">fiber_manual_record</i>
+                            {{ labels[0] }}
+                        </span> <br/><br/>
+                        <span class="valign-wrapper left">
+                            <i class="material-icons" style="color: rgba(220,220,220,1)">fiber_manual_record</i>
+                            {{ labels[1] }}
+                        </span> <br/><br/>
+                        <span class="valign-wrapper left">
+                            <i class="material-icons" style="color: rgba(247,70,74,1)">fiber_manual_record</i>
+                            {{ labels[2] }}
+                        </span> <br/><br/>
+                        <span class="valign-wrapper left">
+                            <i class="material-icons" style="color: rgba(70,191,189,1)">fiber_manual_record</i>
+                            {{ labels[3] }}
+                        </span> <br/><br/>
+                        <span class="valign-wrapper left">
+                            <i class="material-icons" style="color: rgba(253,180,92,1)">fiber_manual_record</i>
+                            {{ labels[4] }}
+                        </span> <br/><br/>
+                        <span class="valign-wrapper left">
+                            <i class="material-icons" style="color: rgba(148,159,177,1)">fiber_manual_record</i>
+                            {{ labels[5] }}
+                        </span> <br/><br/>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -220,6 +260,8 @@
     <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="../js/materialize.min.js"></script>
     <script type="text/javascript" src="../js/angular.min.js"></script>
+    <script src="../chart.js/dist/Chart.min.js"></script>
+    <script src="../angular-chart.js/dist/angular-chart.min.js"></script>
     <script type="text/javascript" src="../js/teacher/index.js"></script>
     <script>
         $(document).ready(function(){

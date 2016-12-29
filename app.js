@@ -11,6 +11,7 @@ let teacher = require("./routes/teacher");
 let app = express();
 
 app.use(express.static('public'));
+app.use(express.static("node_modules"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({

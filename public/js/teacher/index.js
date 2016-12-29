@@ -1,4 +1,4 @@
-let app = angular.module("app", []);
+let app = angular.module("app", ['chart.js']);
 
 app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
     console.log("app ctrl loaded.");
@@ -38,14 +38,26 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
         if(data.ok == 1){
             $scope.electiveInfo = new Object();
 
+            // record chart data
+            let chartData = [0, 0, 0, 0, 0, 0];
+
             let electiveTmp = angular.copy(data.data.electiveInfo);
             for(let i = 0; i < electiveTmp.length; i++){
                 $scope.electiveInfo[electiveTmp[i].student_id] = electiveTmp[i];
+
+                if(electiveTmp[i].score >= 90) chartData[0]++;
+                else if(electiveTmp[i].score >= 70) chartData[1]++;
+                else if(electiveTmp[i].score >= 60) chartData[2]++;
+                else if(electiveTmp[i].score >= 45) chartData[3]++;
+                else if(electiveTmp[i].score >= 0) chartData[4]++;
+                else chartData[5]++;
             }
             console.log("electiveInfo : ", $scope.electiveInfo);
 
             $scope.students = angular.copy(data.data.students);
-            console.log('students : ', $scope.students);                        
+            console.log('students : ', $scope.students);
+
+            updateChart(chartData);
         }
     });
 
@@ -89,11 +101,11 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
         console.log("rating student_id : ", student_id);
         console.log("rating key : ", key);
 
-        let scoreTmp = new Number(angular.copy($scope.electiveInfo[student_id].score));
+        let scoreTmp = angular.copy($scope.electiveInfo[student_id].score);
 
         $scope.ratingObj = {
             student_id : student_id,
-            score : 60 ? scoreTmp : scoreTmp != -1
+            score : scoreTmp != -1 ? scoreTmp : 60
         }
         $scope.ratingObj.name = $scope.students[key].username;
 
@@ -121,8 +133,51 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
             }
 
             $('#ratingModal').modal('close');
+
+            // update chart
+            let chartData = [0, 0, 0, 0, 0, 0];
+
+            let electiveTmp = angular.copy($scope.electiveInfo);
+            for(let i in electiveTmp){
+                if(electiveTmp[i].score >= 90) chartData[0]++;
+                else if(electiveTmp[i].score >= 70) chartData[1]++;
+                else if(electiveTmp[i].score >= 60) chartData[2]++;
+                else if(electiveTmp[i].score >= 45) chartData[3]++;
+                else if(electiveTmp[i].score >= 0) chartData[4]++;
+                else chartData[5]++;
+            }
+
+            console.log(chartData);
+
+            updateChart(chartData);
         });
 
+    }
+
+    // charts area
+
+    $scope.labels = ["90 ~ 100 分", "70 ~ 90 分", "60 ~ 70 分", "45 ~ 60分", "0 ~ 45分", "未评分"];   
+    let label_flag = 0; 
+    let labels01 = ["优异的成绩", "态度非常端正", "只是勉强及格", "千辛万苦挂科", "同学你该重修啦", "还没有评分"];
+    let labels02 = ["90 ~ 100 分", "70 ~ 90 分", "60 ~ 70 分", "45 ~ 60分", "0 ~ 45分", "未评分"];
+    function updateChart(data){
+        $scope.data = angular.copy(data);
+        $scope.type = 'polarArea';
+    }
+
+    $scope.chartToggle = function () {
+        $scope.type = $scope.type === 'polarArea' ?
+        'pie' : 'polarArea';
+    };
+
+    $scope.labelToggle = function(){
+        if(label_flag == 0){
+            $scope.labels = angular.copy(labels01);
+            label_flag = 1;
+        }else{
+            $scope.labels = angular.copy(labels02);            
+            label_flag = 0;
+        }
     }
 
 }]);
