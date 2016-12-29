@@ -180,4 +180,8 @@ app.controller("appCtrl", ["$scope", "$http", function($scope, $http){
         }
     }
 
+    $scope.showChartsTab = function(){
+        $('#teacherTabs').tabs('select_tab', 'charts');
+    }
+
 }]);

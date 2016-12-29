@@ -18,7 +18,7 @@
             <nav class="nav-extended blue cus-m-b20">
                 <div class="nav-wrapper container">
                     <a href="#" class="brand-logo">
-                        <span class="cus-p-l20">Teacher Dashboard</span>
+                        <span class="cus-p-l20" style="font-weight: 200">教师选课管理系统</span>
                     </a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -36,7 +36,7 @@
                         </li>
                     </ul>
 
-                    <ul class="tabs tabs-transparent">
+                    <ul id="teacherTabs" class="tabs tabs-transparent">
                         <li class="tab">
                             <a href="#course_info" class="active">课程信息</a>
                         </li>
@@ -44,7 +44,7 @@
                             <a href="#all_student">所有学生</a>
                         </li>
                         <li class="tab">
-                            <a href="#charts">Charts</a>
+                            <a href="#charts">统计</a>
                         </li>
                     </ul>
                 </div>
@@ -131,6 +131,12 @@
                                 </table>
                             </div>
                             
+                            <div class="col s12 center" style="padding-top: 20px;">
+                                <button class="btn waves-effect waves-light blue" ng-click="showChartsTab()">
+                                    <i class="material-icons right">done</i>                                    
+                                    查看统计
+                                </button>
+                            </div>
                         </div>
                     </div>
 
