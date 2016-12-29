@@ -133,11 +133,52 @@ app.controller("studentCtrl", function($scope, $rootScope, $http){
         url : "./students",
         method : "get"
     }).then(function(data, status){
-        console.log("students : ", data);
-
         let result = data.data;
         if(result.ok == 1){
             $scope.students = result.data;
+            
+            // get school info
+            $http({
+                url : "./schools",
+                method : "get",
+            }).then(function(result_1, status){
+                let old_schools = result_1.data.data;
+
+                let newSchools = new Array();
+                if(result_1.data.ok == 1){
+                    for(let i = 0; i < old_schools.length; i++){
+                        newSchools[old_schools[i].school_id] = old_schools[i];
+                    }
+
+                    console.log("new schools : ", newSchools);
+
+                    // get majors info
+                    $http({
+                        url : "./majors",
+                        method : "get",
+                    }).then(function(result_2, status){
+                        let old_majors = result_2.data.data;
+
+                        let newMajors = new Object();
+                        if(result_2.data.ok == 1){
+                            for(let i = 0; i < old_majors.length; i++){
+                                if(typeof newMajors[old_majors[i].sid] == 'undefined')
+                                    newMajors[old_majors[i].sid] = {};
+                                newMajors[old_majors[i].sid][old_majors[i].major_id] = old_majors[i];
+                            }
+
+                            for(let i = 0; i < $scope.students.length; i++){
+                                $scope.students[i].school = newSchools[$scope.students[i].sid].school_name;
+                                $scope.students[i].major = newMajors[$scope.students[i].sid][$scope.students[i].mid].major_name;
+                            }
+
+                            console.log("new Students : ", $scope.students);
+                        }
+
+                        console.log("new majors : ", $scope.majors);
+                    });
+                }     
+            });
         }
     });
 

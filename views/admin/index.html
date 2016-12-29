@@ -60,7 +60,21 @@
                 <div class="row">
                     <div class="col s12 l10 offset-l1 m12 cus-m-b20" style="margin-top: 8px;">
                         <div class="row">
-                            <div class="col s12" >
+                            <div class="col s12" style="margin-top: 10px;">
+                                <nav>
+                                    <div class="nav-wrapper white">
+                                    <form>
+                                        <div class="input-field">
+                                        <input id="search" type="search" required ng-model="searchText">
+                                        <label for="search"><i class="material-icons">search</i></label>
+                                        <i class="material-icons">close</i>
+                                        </div>
+                                    </form>
+                                    </div>
+                                </nav>
+                            </div>
+
+                            <div class="col s12" style="margin-top: 30px;">
                                 <table class="bordered highlight centered responsive-table">
                                     <thead>
                                         <tr>
@@ -75,7 +89,7 @@
                                     </thead>
 
                                     <tbody>
-                                        <tr ng-repeat="(key, item) in students">
+                                        <tr ng-repeat="(key, item) in students | filter:searchText">
                                             <td>{{ item.student_id }}</td>
                                             <td>{{ item.username }}</td>
                                             <td>
@@ -83,8 +97,10 @@
                                                 <span ng-if="item.sex == 1">女</span>
                                             </td>
                                             <td>{{ item.tel }}</td>
-                                            <td>{{ schools[item.sid].school_name }}</td>
-                                            <td>{{ majors[item.sid][item.mid].major_name }}</td>
+                                            <!--<td>{{ schools[item.sid].school_name }}</td>-->
+                                            <td>{{ item.school }}</td>
+                                            <!--<td>{{ majors[item.sid][item.mid].major_name }}</td>-->
+                                            <td>{{ item.major }}</td>
                                             <td>
                                                 <span class="">
                                                     <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;" ng-click="editStudentModal(key)">search</i>                                        
@@ -96,7 +112,7 @@
                                 </table>
                             </div>
 
-                            <div class="col s8" style="margin-top: 20px;">
+                            <!--<div class="col s8" style="margin-top: 20px;">
                                 <ul class="pagination">
                                     <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
                                     <li class="active"><a href="#!">1</a></li>
@@ -106,7 +122,7 @@
                                     <li class="waves-effect"><a href="#!">5</a></li>
                                     <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
                                 </ul>
-                            </div>
+                            </div>-->
 
                             <div class="col s4" style="margin-top: 35px;">
                                 <button class="btn right waves-effect waves-light blue modal-trigger lighten-1" data-target="addStudentModal" style="margin-right: 10px;">
