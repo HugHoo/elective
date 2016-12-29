@@ -19,7 +19,7 @@
             <nav class="nav-extended blue cus-m-b20">
                 <div class="nav-wrapper container">
                     <a href="#" class="brand-logo">
-                        <span class="cus-p-l20">Dashboard</span>
+                        <span class="cus-p-l20" style="font-weight: 200">选课系统后台</span>
                     </a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -47,9 +47,9 @@
                         <li class="tab">
                             <a href="#course_manage">课程</a>
                         </li>
-                        <!--<li class="tab">
-                            <a href="#elective_info_manage">选修信息</a>
-                        </li>-->
+                        <li class="tab">
+                            <a href="#system">管理</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -208,150 +208,19 @@
                 </div>
             </div>
 
-            <!--<div id="elective_info_manage">
+            <div id="system">
                 <div class="row">
-                    <div class="col l2 m12 s12">
-                        <div class="collection z-depth-1">
-                            <a href="#!" class="collection-item">Alvin</a>
-                            <a href="#!" class="collection-item active">Alvin</a>
-                            <a href="#!" class="collection-item">Alvin</a>
-                            <a href="#!" class="collection-item">Alvin</a>
-                        </div>
-                    </div>
+                    <div class="col s12 l8 offset-l2 m12 cus-m-b20" style="margin-top: 8px;">
+                        <h5>选课管理</h5>
+                        <button ng-disabled="system.is_elective" class="btn waves-effect waves-light blue modal-trigger" data-target="startElectiveModal">开始选课</button>
+                        <button ng-disabled="!system.is_elective" class="btn waves-effect waves-light red modal-trigger" data-target="stopElectiveModal">停止选课</button>
 
-                    <div class="col s12 l8 m12 cus-m-b20" style="margin-top: 8px;">
-                        <div class="row">
-                            <div class="col s12">
-                                <nav>
-                                    <div class="nav-wrapper white">
-                                    <form>
-                                        <div class="input-field">
-                                        <input id="search" type="search" required>
-                                        <label for="search"><i class="material-icons">search</i></label>
-                                        <i class="material-icons">close</i>
-                                        </div>
-                                    </form>
-                                    </div>
-                                </nav>
-                            </div>
-
-                            <div class="col s12" style="margin-top: 20px;">
-                                <table class="bordered highlight centered responsive-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Info01</th>
-                                            <th>Info02</th>
-                                            <th>Operation</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td>20142480107</td>
-                                            <td>Hugo Hoo</td>
-                                            <td>Info 01</td>
-                                            <td>Info 02</td>
-                                            <td>
-                                                <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>20142480107</td>
-                                            <td>Hugo Hoo</td>
-                                            <td>Info 01</td>
-                                            <td>Info 02</td>
-                                            <td>
-                                                <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>20142480107</td>
-                                            <td>Hugo Hoo</td>
-                                            <td>Info 01</td>
-                                            <td>Info 02</td>
-                                            <td>
-                                                <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>20142480107</td>
-                                            <td>Hugo Hoo</td>
-                                            <td>Info 01</td>
-                                            <td>Info 02</td>
-                                            <td>
-                                                <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>20142480107</td>
-                                            <td>Hugo Hoo</td>
-                                            <td>Info 01</td>
-                                            <td>Info 02</td>
-                                            <td>
-                                                <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>20142480107</td>
-                                            <td>Hugo Hoo</td>
-                                            <td>Info 01</td>
-                                            <td>Info 02</td>
-                                            <td>
-                                                <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>20142480107</td>
-                                            <td>Hugo Hoo</td>
-                                            <td>Info 01</td>
-                                            <td>Info 02</td>
-                                            <td>
-                                                <span class="">
-                                                    <i class="material-icons light-blue-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px; margin-right: 5px;">search</i>                                        
-                                                    <i class="material-icons red-text text-lighten-3 circle grey lighten-4 waves-effect" style="padding: 3px;">delete</i>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="col s12" style="margin-top: 20px;">
-                                <ul class="pagination">
-                                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-                                    <li class="active"><a href="#!">1</a></li>
-                                    <li class="waves-effect"><a href="#!">2</a></li>
-                                    <li class="waves-effect"><a href="#!">3</a></li>
-                                    <li class="waves-effect"><a href="#!">4</a></li>
-                                    <li class="waves-effect"><a href="#!">5</a></li>
-                                    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <h5 style="margin-top: 50px;">评阅成绩管理</h5>
+                        <button ng-disabled="system.is_rating" class="btn waves-effect waves-light blue modal-trigger" data-target="startRatingModal">开始评阅成绩</button>
+                        <button ng-disabled="!system.is_rating" class="btn waves-effect waves-light red modal-trigger" data-target="stopRatingModal">停止评阅成绩</button>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </div>
     </div>
 
@@ -671,6 +540,50 @@
         <div class="modal-footer">
             <a class="modal-action modal-close waves-effect btn-flat">取消</a>
             <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="deleteCourseSubmit()">确定</a>
+        </div>
+    </div>
+
+    <div id="startElectiveModal" class="modal">
+        <div class="modal-content">
+            <h5>开始选课</h5>
+            <p>确定<span class="red-text">开始</span>选课 ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="startElectiveSubmit()">确定</a>
+        </div>
+    </div>
+
+    <div id="stopElectiveModal" class="modal">
+        <div class="modal-content">
+            <h5>停止选课</h5>
+            <p>确定<span class="red-text">停止</span>选课 ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="stopElectiveSubmit()">确定</a>
+        </div>
+    </div>
+
+    <div id="startRatingModal" class="modal">
+        <div class="modal-content">
+            <h5>开始评阅成绩</h5>
+            <p>确定 <span class="red-text">开始</span>评阅成绩 ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="startRatingSubmit()">确定</a>
+        </div>
+    </div>
+
+    <div id="stopRatingModal" class="modal">
+        <div class="modal-content">
+            <h5>停止评阅成绩</h5>
+            <p>确定<span class="red-text">停止</span>评阅成绩  ?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect btn-flat">取消</a>
+            <a class="modal-action modal-close waves-effect waves-teal btn-flat" ng-click="stopRatingSubmit()">确定</a>
         </div>
     </div>
 

@@ -73,6 +73,57 @@ app.controller("appCtrl", function($scope, $rootScope, $http){
         }
     });
 
+    // system setting
+    $http({
+        url : "./system",
+        method : "get"
+    }).then(function(data, status){
+        console.log(data.data);
+
+        if(data.data.ok == 1){
+            $scope.system = data.data.data;
+            
+            console.log("system setting : ", $scope.system);
+        }
+    });
+
+    $scope.startElectiveSubmit = function(){
+        $scope.system.is_elective = true;
+        console.log("system now : ", $scope.system);
+        updateSystem();
+    }
+
+    $scope.stopElectiveSubmit = function(){
+        $scope.system.is_elective = false;
+        console.log("system now : ", $scope.system);
+
+        updateSystem();
+    }
+
+    $scope.startRatingSubmit = function(){
+        $scope.system.is_rating = true;
+        console.log("system now : ", $scope.system);
+
+        updateSystem();
+    }
+
+    $scope.stopRatingSubmit = function(){
+        $scope.system.is_rating = false;
+        console.log("system now : ", $scope.system);
+
+        updateSystem();
+    }
+
+    function updateSystem(){
+        $http({
+            url : "./update_system",
+            method : "post",
+            data : angular.copy($scope.system)
+        }).then(function(data, status){
+            console.log(data.data);
+            console.log("更新成功")            
+        });
+    }
 });
 
 app.controller("studentCtrl", function($scope, $rootScope, $http){

@@ -46,6 +46,8 @@ app.get("/admin/students", admin.students);
 app.post("/admin/add_student", admin.add_student);
 app.post("/admin/update_student", admin.update_student);
 app.post("/admin/delete_student", admin.delete_student);
+app.get("/admin/system", admin.system);
+app.post("/admin/update_system", admin.update_system);
 // app.post("/admin/teacher_image", (req, res) => { admin.teacher_image(app, req, res); });
 
 app.get("/student/index", (req, res) => { student.index(app, req, res); });

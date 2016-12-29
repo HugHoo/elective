@@ -469,15 +469,65 @@ let admin = {
                 });
             }
         });
+    },
+
+    system : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("system");
+                    collection.find({ system_id : 0 }).toArray(function(err, docs){
+                        assert.equal(err, null);
+
+                        console.log("system setting : ", docs);
+                        res.send({
+                            ok : 1,
+                            data : docs[0]
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
+    },
+
+    update_system : function(req, res){
+        // check session
+        checkSession(req, function(result){
+            if(!result){
+                res.redirect("./login");
+            }else{
+                mongoClient.connect(url, function(err, db){
+                    assert.equal(err, null);
+
+                    let collection = db.collection("system");
+                    collection.updateOne({ system_id : 0 }, {
+                        $set : {
+                            is_elective : req.body.is_elective,
+                            is_rating : req.body.is_rating
+                        }
+                    }, function(err, r){
+                        assert.equal(null, err);
+                        assert.equal(1, r.result.n);
+
+                        console.log("更新system setting成功");
+                        res.send({
+                            ok : 1
+                        });
+                    });
+
+                    db.close();
+                });
+            }
+        });
     }
 
-    // teacher_image : function(app, req, res){
-    //     fs.writeFileSync(app.get("public") + "/imgs/" + req.body.fileName, req.body.file, { encoding : "binary" });
-
-    //     res.send({
-    //         ok : 1
-    //     })
-    // }
 }
 
 function checkSession(req, fn){
